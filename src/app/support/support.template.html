@@ -1,0 +1,81 @@
+<!-- <h1 class="page-title">My <span class="fw-semi-bold">Profile</span></h1> -->
+<div *ngIf="lightSwitch" class="row profile">
+
+
+  <!-- FAQs -->
+  <div *ngIf="faqs.length > 0" class="col-lg-6 col-12 animated pulse">
+
+    <section *ngFor="let faq of faqs" class="event margin-bottom-10">
+      <h5 class="event-heading">{{ faq.question }}</h5>
+      <p class="fs-mini" [innerHTML]="faq.answer"></p>
+      <p>
+        <img width="100%" [src]="faq.image" alt="faq.question">
+      </p>
+    </section>
+  </div>
+
+  <!-- COMPOSE SUPPORT REQUEST -->
+  <div class="col-lg-6 col-12 animated pulse">
+    <section class="widget card-interface">
+      <header class="text-center">
+        <div>
+          <img src="assets/icon/support.svg" height="100px" alt="">
+        </div>
+        <div class="padding-top">
+
+          <h1 class="page-title">
+            Support
+            <span class="fw-semi-bold text-center">Request</span>
+          </h1>
+        </div>
+      </header>
+      <div class="widget-body">
+        <form class="form-horizontal form-label-left parsleyjs" method="post" data-parsley-priority-enabled="false" novalidate="novalidate"
+          (ngSubmit)="sendSupportMessage()">
+          <fieldset>
+            <legend>
+              I need help with
+            </legend>
+            <div class="form-group row">
+              <div class="col-12">
+                <select required class="btn btn-custom btn-md btn-select" data-style="btn-secondary btn-md" [(ngModel)]="to" tabindex="-1"
+                  id="targetgroup" name="targetgroup">
+                  <option value="">...</option>
+                  <option value="Account Setup">Account Setup/Management</option>
+                  <option value="Subscribing For Jobs">Street Records</option>
+                  <option value="Job Application">Property Records</option>
+                  <option value="Other Kind of Support">Other Kind of Support</option>
+                </select>
+              </div>
+            </div>
+            <legend>
+              Message
+            </legend>
+            <div class="form-group row">
+              <div class="col-12">
+                <!-- <app-tiny-editor [elementId]="'htmlcontent_requirements'" (onEditorContentChange)="keyInRequirements($event)">
+                      </app-tiny-editor> -->
+                <textarea rows="6" maxlength="1000" id="requirements" name="requirements" class="form-control form-control-md" required="required"
+                  [(ngModel)]="message" placeholder="How can we help you {{user.personal.firstname}}? SUGGESTION: Your message should be direct and easily digestable. The more conversational, the better. NOTE: (1000 characters max)"></textarea>
+
+              </div>
+            </div>
+
+          </fieldset>
+          <div class="form-actions bg-white">
+            <button *ngIf="!publishSwitch" type="submit" class="btn btn-primary btn-rounded float-xs-right">
+              Send Message
+              <i class="fa fa-comments text-white large-icon-md margin-top-3 pull-left"></i>
+            </button>
+            <a *ngIf="publishSwitch" class="btn btn-grey" disabled>
+              <span class="spinner">
+                <i class="fa fa-spinner fa-spin"></i>
+                Sending...
+              </span>
+            </a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

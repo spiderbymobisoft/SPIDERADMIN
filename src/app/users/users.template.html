@@ -1,0 +1,158 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Dashboard</li>
+  <li class="breadcrumb-item {{display === 'users' ? 'active' : '' }}">Users Manager</li>
+  <li *ngIf="display === 'user'" class="breadcrumb-item active">{{ 'Managing ' + user.firstname }}</li>
+</ol>
+<div *ngIf="display === 'users'" class="row">
+  <div *ngIf="thisUser.security.role === 'Admin'" class="col-12 animated slideInLeft">
+    <a (click)="openNewUserPage()" class="btn btn-md btn-primary pull-left text-white">Add New User
+      <i class="fa fa-user-plus pull-left large-icon-md margin-top-3"></i>
+    </a>
+  </div>
+  <div class="col-12">
+    &nbsp;
+  </div>
+</div>
+<div class="row" *ngIf="display === 'users'">
+  <div class="col-lg-4 col-12 animated pulse" *ngFor="let i of users">
+    <section widget class="widget card-interface">
+      <div class="widget-body text-center">
+        <div class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black ">
+          <img src="{{ i.avatar }}" height="100px" alt="">
+          <h3 class="mt-lg mb-lg">
+            {{ i.firstname + ' ' + i.lastname }}
+          </h3>
+          <div>
+            <span class="{{ i.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
+              {{ i.is_active ? 'Active' : 'In-Active' }}
+            </span> &nbsp;
+            <span class="{{ i.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
+              {{ i.role }}
+            </span>
+          </div>
+          <div *ngIf="thisUser.security.role === 'Admin'" class="margin-top-20">
+            <a class="btn btn-primary btn-outline-primary btn-md" (click)="displayThis(i)">
+              View
+              <i class="fa fa-arrow-right pull-right margin-top-3"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div *ngIf="closeButton" class="row animated bounceInDown">
+  <div class="col-12">
+    <span class="pull-left">
+      <a (click)="closeThis()">
+        <i class="fa fa-arrow-left pull-left font-icon-large text-primary margin-top-3"></i> All Users
+      </a>
+    </span>
+  </div>
+  <div class="col-12">
+    &nbsp;
+  </div>
+</div>
+
+
+<!-- USER PROFILE -->
+<div *ngIf="display === 'user'" class="row profile">
+  <div class="col-lg-6 col-12 animated pulse">
+    <section class="widget card-interface">
+
+      <div class="widget-middle-overflow windget-padding-md clearfix text-center text-black ">
+        <img src="{{ user.avatar }}" height="80px" alt="">
+        <h3>
+          {{ user.firstname + ' ' + user.lastname }}
+        </h3>
+        <div>
+          <span class="{{ user.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
+            {{ user.is_active ? 'Active' : 'In-Active' }}
+          </span> &nbsp;
+          <span class="{{ user.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
+            {{ user.role }}
+          </span>
+        </div>
+      </div>
+
+      <div class="widget-body bg-white">
+        <div class="clearfix">
+          <div *ngIf="!userEdit">
+            <legend>
+              <strong>Telephone</strong>
+            </legend>
+            <p>{{ user.mobile }}</p>
+
+            <legend>
+              <strong>Email</strong>
+            </legend>
+            <p>{{ user.email }}</p>
+
+            <legend>
+              <strong>Role</strong>
+            </legend>
+            <p>{{ user.role }}</p>
+
+            <legend>
+              <strong>Last Seen</strong>
+            </legend>
+            <p>{{ user.last_seen | amTimeAgo }}</p>
+
+            <div class="float-right">
+              <button class="btn btn-primary pull-right" (click)="openEdit()">&nbsp; Edit User
+                <i class="fa fa-pencil mr-xs pull-left font-icon-large margin-top-3"></i>
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="userEdit">
+            <form class="form-horizontal form-label-left parsleyjs" method="post" data-parsley-priority-enabled="false" novalidate="novalidate"
+              (ngSubmit)="updateUser()">
+              <fieldset>
+                <legend>
+                  <span class="tag tag-warning  text-gray-dark mr-xs">
+                    Update
+                  </span> User Information
+                </legend>
+                <div class="form-group row">
+                  <label class="form-control-label col-md-3 col-xs-12" for="telephone">Telephone</label>
+                  <div class="col-md-9 col-xs-12">
+                    <input type="tel" id="telephone" name="telephone" class="form-control" required="" [(ngModel)]="user.mobile">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="form-control-label col-md-3 col-xs-12" for="roles">User Role</label>
+                  <div class="col-md-9 col-xs-12">
+                    <select2 id="roles" name="roles" ngDefaultControl class="form-control" (valueChanged)="userRoleChanged($event)" [value]="user.role"
+                      [data]="getUserRoles()" [width]="250" [(ngModel)]="user.role"></select2>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="form-control-label col-md-3 col-xs-12" for="access_control">Access Control</label>
+                  <div class="col-md-9 col-xs-12">
+                    <div class="display-inline-block checkbox-ios">
+                      <label for="access_control" class="switch">
+                        <input type="checkbox" class="ios" checked id="access_control" name="access_control" [(ngModel)]="user.is_active">
+                        <i></i>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <div class="form-actions bg-white">
+                <button type="button" (click)="closeEdit()" class="btn btn-inverse btn-rounded pull-left">
+                  <i class="fa fa-reply pull-left font-icon-large"></i>
+                </button>
+                <button type="submit" class="btn btn-success btn-rounded pull-right">&nbsp; Save
+                  <i class="fa fa-save pull-left font-icon-large margin-top-3"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

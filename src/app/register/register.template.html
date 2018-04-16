@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-xl-4 col-md-6 col-10 offset-xl-4 offset-md-3 offset-1">
+
+    <section class="widget widget-login animated pulse card-interface">
+      <header>
+        <h3>New User Account</h3>
+      </header>
+      <div class="widget-body">
+        <form class="login-form parsleyjs" method="post" data-parsley-priority-enabled="false" novalidate="novalidate" (ngSubmit)="registerUser()">
+          <div class="form-group row">
+            <div class="col-md-12">
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </span>
+                <input required="" id="firstname" name="firstname" class="form-control" [(ngModel)]="user.firstname" size="16" type="text"
+                  placeholder="Firstname" data-parsley-errors-container="#firstname-error">
+              </div>
+              <div id="firstname-error"></div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </span>
+                <input required="" id="lastname" name="lastname" class="form-control" size="16" type="text" [(ngModel)]="user.lastname" placeholder="Lastname"
+                  data-parsley-errors-container="#lastname-error">
+              </div>
+              <div id="lastname-error"></div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                  <i class="fa fa-envelope-o"></i>
+                </span>
+                <input required="" id="email" name="email" class="form-control" size="16" type="email" [(ngModel)]="user.email" placeholder="Email"
+                  data-parsley-errors-container="#email-error">
+              </div>
+              <div id="email-error"></div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                  <i class="fa fa-mobile"></i>
+                </span>
+                <input required="" id="mobile" name="mobile" class="form-control" size="16" type="tel" [(ngModel)]="user.mobile" placeholder="Mobile"
+                  data-parsley-errors-container="#telephone-error">
+              </div>
+              <div id="telephone-error"></div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                  <i class="fa fa-lock"></i>
+                </span>
+                <input required="" type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" placeholder="Password"
+                  data-parsley-errors-container="#password-error">
+              </div>
+              <div id="password-error"></div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                  <i class="fa fa-cog"></i>
+                </span>
+                <select2 id="roles" name="roles" ngDefaultControl class="form-control" (valueChanged)="userRoleChanged($event)" [value]="user.role"
+                  [data]="getUserRoles()" [width]="250" [(ngModel)]="user.role"></select2>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="btn-toolbar float-right m-t-1">
+              <button *ngIf="!registerSwitch" type="submit" class="btn btn-inverse btn-md">Create Account</button>
+              <a *ngIf="registerSwitch" class="btn btn-grey btn-md">
+                <span class="spinner">
+                  <i class="fa fa-spinner fa-spin"></i>
+                  Creating Account...
+                </span>
+              </a>
+            </div>
+            <div class="btn-toolbar float-left m-t-1">
+              <a class="btn  btn-md" [routerLink]=" ['/app', 'users'] ">
+                <i class="fa fa-arrow-left margin-top-3 pull-left"></i> All Users
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

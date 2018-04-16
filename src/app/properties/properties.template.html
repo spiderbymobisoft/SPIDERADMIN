@@ -1,0 +1,100 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Dashboard</li>
+  <li class="breadcrumb-item active">Property Records</li>
+</ol>
+<h1 class="page-title">Property -
+  <span class="fw-semi-bold">Records</span>
+</h1>
+<section class="widget card-interface" widget>
+    <header>
+ 
+    </header>
+    <div class="widget-body">
+      <div class="mt">
+        <div class="width-200 float-xs-right">
+          <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+            <span class="input-group-addon">
+              <i class="fa fa-search"></i>
+            </span>
+            <input class="form-control form-control-sm" id="table-search-input" [(ngModel)]="searchText" type="text" placeholder="Search Street Name">
+          </div>
+        </div>
+        <table class="table table-striped table-hover" [mfData]="propertyRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
+          <thead>
+            <tr>
+              <th>
+                <mfDefaultSorter by="property.building_serial_number">BSN</mfDefaultSorter>
+              </th>
+              <th>
+                <mfDefaultSorter by="property.house_number">Location</mfDefaultSorter>
+              </th>
+              <th>
+                <mfDefaultSorter by="property.ownership_type">Ownership Type</mfDefaultSorter>
+              </th>
+              <th>
+                <mfDefaultSorter by="property.contact.contact_person">Contact Person</mfDefaultSorter>
+              </th>
+              <th>
+                <mfDefaultSorter by="property.number_of_entity">Entities</mfDefaultSorter>
+              </th>
+              <th class="text-right">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-capitalize">
+            <tr *ngFor="let record of mf.data | SearchPipe : searchText">
+              <td class="align-middle">
+                {{ record.property.building_serial_number ? record.property.building_serial_number : 'N/A' }}
+              </td>
+              <td class="align-middle">
+                  {{ record.property.house_number }}, {{ record.property.street_name }}<br>
+                  {{ record.property.lga }}, {{ record.property.state }}
+                </td>
+              <td class="align-middle">
+                <span class="fw-semi-bold">{{ record.property.ownership_type }}</span>
+              </td>
+              <td class="align-middle">
+                 <div *ngIf="record.contact">
+                    <i class="fa fa-user"></i> &nbsp;
+                    <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
+                    <br>
+                    <i class="fa fa-envelope"></i>&nbsp;
+                    <span class="text-lowercase"> {{ record.contact.email }}</span>
+                    <br>
+                    <i class="fa fa-phone"></i>&nbsp;
+                    <span> {{ record.contact.telephone }}</span>
+                </div>
+                <div *ngIf="!record.contact">
+                  No Contact Information
+                </div>
+              </td>
+              <td class="align-middle">
+                {{ record.property.number_of_entity }}
+              </td>
+              <td class="text-right align-middle">
+                <button class="btn btn-secondary width-50 mb-xs" role="button" (click)="goToPropertyPage(record)">
+                  <i class="glyphicon glyphicon glyphicon-eye-open text-primary"></i>
+                </button>
+                <button *ngIf="record.payment_status !== 1" class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record.property.property_id)">
+                  <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="(mf.data | SearchPipe : searchText).length === 0">
+              <td colspan="100">
+                No matches
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="12">
+                <mfBootstrapPaginator [rowsOnPageSet]="[10, 25, 50, 100]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </section>

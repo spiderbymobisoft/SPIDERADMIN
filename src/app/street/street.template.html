@@ -1,0 +1,228 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Dashboard</li>
+  <li class="breadcrumb-item">Streets</li>
+  <li class="breadcrumb-item active text-capitalize">{{ streetRecord.street.street_name }}</li>
+</ol>
+<h1 class="page-title">Street -
+  <span class="fw-semi-bold">Information</span>
+</h1>
+<div class="row text-capitalize">
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <div>
+          <h5 class="fw-semi-bold">Location Address</h5>
+        </div>
+        <div>{{ streetRecord.street.area }}, {{ streetRecord.street.locaion }}</div>
+        <div>{{ streetRecord.street.lga }}, {{ streetRecord.street.state }}</div>
+        <div>{{ streetRecord.street.country }}</div>
+        <hr>
+        <div>
+          <h5 class="fw-semi-bold">Coordinates & Map</h5>
+        </div>
+
+        <div>
+          <p>
+            <i class="fa fa-map-marker"></i>
+            <a href="http://www.google.com/maps/place/{{ streetRecord.location.coordinates[1] }}, {{ streetRecord.location.coordinates[0] }}"
+              target="_blank">
+              <b>LNG:</b> {{ streetRecord.location.coordinates[0] }}
+              <b>LAT:</b> {{ streetRecord.location.coordinates[1] }}</a>
+          </p>
+          <p *ngIf="streetRecord.location.whatthreewords">
+            <i class="fa fa-map-marker"></i>
+            <a href="https://map.what3words.com/{{ streetRecord.location.whatthreewords }}" target="_blank">{{ streetRecord.location.whatthreewords }}</a>
+          </p>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Street Photos</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street_photos.length }}</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>GIS ID:</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.gis_id ? streetRecord.street.gis_id : 'N/A'}}</div>
+        </div>
+        <hr>
+        <div>
+          <h5 class="fw-semi-bold">Street Furniture</h5>
+        </div>
+        <div>
+          <ul>
+            <li *ngFor="let sf of streetRecord.street.street_furniture">
+              {{ sf }}
+            </li>
+          </ul>
+        </div>
+        <hr>
+        <div>
+          <h5 class="fw-semi-bold">Road Feature</h5>
+        </div>
+  
+        <div>
+          <ul>
+            <li *ngFor="let rf of streetRecord.street.road_feature">
+              {{ rf }}
+            </li>
+          </ul>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Eletricity:</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.electricity }}</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <div>
+          <h5 class="fw-semi-bold">Street Details</h5>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Road Type</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.road_type }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Road Condition</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.road_condition }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Road Carriage</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.road_carriage }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Drainage</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.drainage }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Refuse Disposal</b>
+          </div>
+          <div class="pull-right">{{ streetRecord.street.refuse_disposal }}</div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+<section class="widget card-interface" widget>
+  <header>
+    <h3 class="page-title">Properties on -
+      <span class="fw-semi-bold text-capitalize">{{ streetRecord.street.street_name }}</span>
+    </h3>
+  </header>
+  <div class="widget-body">
+    <div class="mt">
+      <div class="width-200 float-xs-right">
+        <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+          <span class="input-group-addon">
+            <i class="fa fa-search"></i>
+          </span>
+          <input class="form-control form-control-sm" id="table-search-input" [(ngModel)]="searchText" type="text" placeholder="Search House Number">
+        </div>
+      </div>
+      <table class="table table-striped table-hover" [mfData]="propertyRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead>
+          <tr>
+            <th>
+              <mfDefaultSorter by="proprty.building_serial_number">BSN</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="property.house_number">House Number</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="property.ownership_type">Ownership Type</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="contact.contact_person">Contact</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="property.number_of_entity">Entities</mfDefaultSorter>
+            </th>
+            <th class="text-right">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody class="text-capitalize">
+          <tr *ngFor="let record of mf.data | SearchPipe : searchText">
+            <td class="align-middle">
+              {{ record.property.building_serial_number ? record.property.building_serial_number : 'N/A' }}
+            </td>
+            <td class="align-middle">
+              {{ record.property.house_number }}
+            </td>
+            <td class="align-middle">
+              <span class="fw-semi-bold">{{ record.property.ownership_type }}</span>
+            </td>
+            <td class="align-middle">
+              <div *ngIf="record.contact">
+                  <i class="fa fa-user"></i> &nbsp;
+                <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
+                <br>
+                <i class="fa fa-envelope"></i>&nbsp;
+                <span class="text-lowercase"> {{ record.contact.email }}</span>
+                <br>
+                <i class="fa fa-phone"></i>&nbsp;
+                <span> {{ record.contact.telephone }}</span>
+              </div>
+              <div *ngIf="!record.contact">
+                No Contact Information
+              </div>
+            </td>
+            <td class="align-middle">
+              {{ record.property.number_of_entity }}
+            </td>
+            <td class="text-right align-middle">
+              <button class="btn btn-secondary width-50 mb-xs" role="button" (click)="goToPropertyPage(record)">
+                <i class="glyphicon glyphicon glyphicon-eye-open text-primary"></i>
+              </button>
+              <button *ngIf="record.payment_status !== 1" class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record.property.property_id)">
+                <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="(mf.data | SearchPipe : searchText).length === 0">
+            <td colspan="100">
+              No matches
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="12">
+              <mfBootstrapPaginator [rowsOnPageSet]="[10, 25, 50, 100]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>

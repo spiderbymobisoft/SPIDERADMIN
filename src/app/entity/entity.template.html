@@ -1,0 +1,173 @@
+<h1 class="page-title">
+  Entity -
+  <span class="fw-semi-bold">Record</span>
+</h1>
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-6">
+    <section class="widget card-interface">
+      <div class="widget-body">
+        <div>
+          <h5 class="fw-semi-bold">Coordinates & Map</h5>
+        </div>
+
+        <div>
+          <p>
+            <i class="fa fa-map-marker"></i>
+            <a href="http://www.google.com/maps/place/{{ entityRecord.location.coordinates[1] }}, {{ entityRecord.location.coordinates[0] }}"
+              target="_blank">
+              <b>LNG:</b> {{ entityRecord.location.coordinates[0] }}
+              <b>LAT:</b> {{ entityRecord.location.coordinates[1] }}</a>
+          </p>
+          <p *ngIf="entityRecord.location.whatthreewords">
+            <i class="fa fa-map-marker"></i>
+            <a href="https://map.what3words.com/{{ entityRecord.location.whatthreewords }}" target="_blank">{{ entityRecord.location.whatthreewords }}</a>
+          </p>
+        </div>
+        <hr>
+        <div>
+          <h5 class="fw-semi-bold">Entity Details</h5>
+        </div>
+        <hr>
+
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Entity Name</b>
+          </div>
+          <div class="pull-right text-capitalize">{{ entityRecord.entity.entity_name }}</div>
+        </div>
+        <hr>
+        <div *ngIf="entityRecord.contact">
+          <div class="clearfix">
+            <div class="pull-left">
+              <b>Contact Person</b>
+            </div>
+            <div class="pull-right text-capitalize">{{ entityRecord.contact.contact_person }}</div>
+          </div>
+          <hr>
+
+          <div class="clearfix">
+            <div class="pull-left">
+              <b>Contact Email</b>
+            </div>
+            <div class="pull-right text-lowercase">{{ entityRecord.contact.email }}</div>
+          </div>
+          <hr>
+
+          <div class="clearfix">
+            <div class="pull-left">
+              <b>Contact Telephone</b>
+            </div>
+            <div class="pull-right text-capitalize">{{ entityRecord.contact.telephone }}</div>
+          </div>
+          <hr>
+        </div>
+
+
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Entity Group/Category</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.entity_group}}/{{ entityRecord.entity.entity_category }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Meter Available</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.meter_available ? 'Yes' : 'No' }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Meter Condition</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.meter_condition }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Entity Name</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.meter_phases }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Meter Type</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.meter_type }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Meter Number</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.meter_number }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Boys Quarter</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.boys_quarter }}</div>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Has Signage</b>
+          </div>
+          <div class="pull-right">{{ entityRecord.entity.has_signage ? 'Yes' : 'No' }}</div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <div class="col-sm-12 col-md-12 col-lg-6">
+    <div *ngFor=" let photo of entityRecord.property_photos" class="col-12">
+      <section widget class="widget card-interface">
+        <header>
+          <div class="widget-controls">
+            <h3>
+              <a (click)="deleteEntity(photo._id)">
+                <i class="fa fa-trash text-danger"></i>
+              </a>
+            </h3>
+          </div>
+        </header>
+        <div class="widget-body">
+          <div class="widget-middle-overflow windget-padding-md clearfix bg-custom">
+            <img src="{{ photo.url }}" class="photo-square" alt="" width="100%">
+          </div>
+          <div *ngIf="photo.snapshot_position" class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black">
+            <h4 class="mb-xs mt-xs">{{ photo.title }}</h4>
+            <p class="description">
+              <i class="fa fa-camera big-text"></i> {{ photo.snapshot_position }}
+            </p>
+          </div>
+          <div class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black">
+            <div *ngIf="photo.location.whatthreewords" class="pull-left">
+              <a class="btn btn-info" href="https://map.what3words.com/{{ entityRecord.location.whatthreewords }}" target="_blank">
+                <i class="fa fa-map-marker big-text"></i> {{ photo.location.whatthreewords }}
+              </a>
+            </div>
+            <div class="pull-right">
+              <a class="btn btn-primary" href="http://www.google.com/maps/place/{{ photo.location.coordinates[1] }}, {{ photo.location.coordinates[0] }}"
+                target="_blank">
+                <i class="fa fa-map-marker big-text"></i> Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+</div>

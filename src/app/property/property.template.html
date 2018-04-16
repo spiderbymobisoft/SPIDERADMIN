@@ -1,0 +1,267 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Dashboard</li>
+  <li class="breadcrumb-item">Streets</li>
+  <li class="breadcrumb-item text-capitalize">{{ propertyRecord.property.street_name }}</li>
+  <li class="breadcrumb-item active text-capitalize">{{ propertyRecord.property.house_number }}</li>
+</ol>
+<h1 class="page-title">Property on -
+  <span class="fw-semi-bold text-capitalize">{{ propertyRecord.property.house_number }}, {{ propertyRecord.property.street_name }}</span>
+</h1>
+<div class="row text-capitalize">
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <div *ngIf="propertyRecord.contact">
+          <div>
+            <h5 class="fw-semi-bold">Contact Person</h5>
+          </div>
+          <div class="font-weight-bold">
+            <i class="fa fa-user"></i> &nbsp; {{ propertyRecord.contact.contact_person }}</div>
+          <div class="text-lowercase">
+            <i class="fa fa-envelope"></i> &nbsp; {{ propertyRecord.contact.email }}</div>
+          <div>
+            <i class="fa fa-phone"></i> &nbsp; {{ propertyRecord.contact.telephone }}</div>
+          <hr>
+        </div>
+
+        <div>
+          <h5 class="fw-semi-bold">Location Address</h5>
+        </div>
+        <div>{{ propertyRecord.property.house_number }}, {{ propertyRecord.property.street_name }}</div>
+        <div>{{ propertyRecord.property.lga }}, {{ propertyRecord.property.state }}</div>
+        <div>{{ propertyRecord.property.country }}</div>
+        <hr>
+        <div>
+          <h5 class="fw-semi-bold">Coordinates & Map</h5>
+        </div>
+        <div>
+          <p>
+            <i class="fa fa-map-marker"></i>
+            <a href="http://www.google.com/maps/place/{{ propertyRecord.location.coordinates[1] }}, {{ propertyRecord.location.coordinates[0] }}"
+              target="_blank">
+              <b>LNG:</b> {{ propertyRecord.location.coordinates[0] }}
+              <b>LAT:</b> {{ propertyRecord.location.coordinates[1] }}</a>
+          </p>
+          <p *ngIf="propertyRecord.location.whatthreewords">
+            <i class="fa fa-map-marker"></i>
+            <a href="https://map.what3words.com/{{ propertyRecord.location.whatthreewords }}" target="_blank">{{ propertyRecord.location.whatthreewords }}</a>
+          </p>
+        </div>
+
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Property Photos</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property_photos.length }}</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <div *ngIf="propertyRecord.property.site_conditions">
+          <div>
+            <h5 class="fw-semi-bold">Site Conditions</h5>
+          </div>
+          <div *ngIf="propertyRecord.property.site_conditions.length === 0">
+            Not Specified
+          </div>
+          <div *ngIf="propertyRecord.property.site_conditions.length > 0">
+            <ul>
+              <li *ngFor="let sc of propertyRecord.property.site_conditions">
+                {{ sc }}
+              </li>
+            </ul>
+          </div>
+          <hr>
+        </div>
+
+        <div>
+          <h5 class="fw-semi-bold">Ownership Type</h5>
+        </div>
+        <div>
+          {{ propertyRecord.property.ownership_type }}
+        </div>
+        <hr>
+        <div>
+          <h5 class="fw-semi-bold">Building Type</h5>
+        </div>
+        <div>
+          <ul>
+            <li *ngFor="let bt of propertyRecord.property.building_type">
+              {{ bt }}
+            </li>
+          </ul>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Storey Building</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.storey_building ? 'Yes' : 'No' }}</div>
+        </div>
+        <hr>
+        <div *ngIf="propertyRecord.property.storey_building">
+          <div class="clearfix">
+            <div class="pull-left">
+              <b>Storey Building Floors</b>
+            </div>
+            <div class="pull-right">{{ propertyRecord.property.storey_building_floors ? propertyRecord.property.storey_building_floors : 'N/A' }}</div>
+          </div>
+          <hr>
+        </div>
+        <div>
+          <h5 class="fw-semi-bold">Water Supply</h5>
+        </div>
+        <div>
+          <ul>
+            <li *ngFor="let ws of propertyRecord.property.water_supply">
+              {{ ws }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <div>
+          <h5 class="fw-semi-bold">Property Details</h5>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Refuse Disposal</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.refuse_disposal }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Has Signage</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.has_signage ? 'Yes' : 'No' }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Gate House</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.gate_house}}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Generator House</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.generator_house }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Boys Quarter</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.boys_quarter }}</div>
+        </div>
+        <hr>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Number of Entities</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.number_of_entity }}</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<section class="widget card-interface" widget>
+  <header>
+
+  </header>
+  <div class="widget-body">
+    <div class="mt">
+      <div class="width-200 float-xs-right">
+        <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+          <span class="input-group-addon">
+            <i class="fa fa-search"></i>
+          </span>
+          <input class="form-control form-control-sm" id="table-search-input" [(ngModel)]="searchText" type="text" placeholder="Search Entity Name">
+        </div>
+      </div>
+      <table class="table table-striped table-hover" [mfData]="entityRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead>
+          <tr>
+            <th>
+              <mfDefaultSorter by="entity.entity_name">Entity Name</mfDefaultSorter>
+            </th>
+            <th>
+              Contact Person
+            </th>
+            <th>
+              Entity Group/Category
+            </th>
+            <th>
+              Photos
+            </th>
+            <th class="text-right">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of mf.data | SearchPipe : searchText">
+            <td class="align-middle">
+              {{ record.entity.entity_name }}
+            </td>
+            <td class="align-middle">
+              <div *ngIf="record.contact">
+                <i class="fa fa-user"></i> &nbsp;
+                <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
+                <br>
+                <i class="fa fa-envelope"></i> &nbsp;
+                <span class="text-lowercase"> {{ record.contact.email }}</span>
+                <br>
+                <i class="fa fa-phone"></i> &nbsp;
+                <span> {{ record.contact.telephone }}</span>
+              </div>
+              <div *ngIf="!record.contact">
+                No Contact Information
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="badge badge-pill badge-success"> {{ record.entity.entity_group }} </div>
+              <br>
+              <div class="badge badge-pill badge-warning"> {{ record.entity.entity_category }} </div>
+            </td>
+            <td class="align-middle">
+              {{ record.property_photos.length }}
+            </td>
+            <td class="text-right align-middle">
+              <button class="btn btn-secondary width-50 mb-xs" role="button" (click)="showEntity(record)">
+                <i class="glyphicon glyphicon glyphicon-eye-open text-primary"></i>
+              </button>
+              <button class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record._id)">
+                <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="(mf.data | SearchPipe : searchText).length === 0">
+            <td colspan="100">
+              No matches
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="12">
+              <mfBootstrapPaginator [rowsOnPageSet]="[10, 25, 50, 100]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>

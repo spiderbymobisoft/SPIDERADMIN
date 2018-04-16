@@ -1,0 +1,22 @@
+
+  <div class="row">
+    <div class="col-lg-4 col-12 animated pulse" *ngFor="let i of menuItems">
+      <section widget class="widget card-interface">
+        <div class="widget-body text-center">
+          <div class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black ">
+            <img src="{{ i.img }}" height="100px" alt="">
+            <h1 class="mt-lg mb-lg">
+              {{ i.title }}
+            </h1>
+            <p>{{ i.description }}</p>
+            <div>
+              <a class="btn btn-primary btn-outline-primary btn-md" (click)="displayThis(i)">
+                View
+                <i class="fa fa-arrow-right pull-right margin-top-3"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>

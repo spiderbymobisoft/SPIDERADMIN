@@ -1,0 +1,67 @@
+<div class="container-fluid no-gutters bg-primary navbar-fixed-top nav-bar-fixed animated slideInDown">
+  <!-- .navbar-header contains links seen on xs & sm screens -->
+  <div class="navbar-brand float-left bg-primary">
+    <ul class="nav navbar-nav flex-row float-left">
+      <li class="nav-item dropdown">
+        <span class="float-left left-padded">
+          <img src="assets/icon/logo-white.png" height="48px" alt="">
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- this part is hidden for xs screens -->
+  <div *ngIf="lightSwitch" class="navbar-brand float-right bg-primary">
+    <ul class="nav navbar-nav flex-row float-right" (click)="$event.preventDefault()">
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle">
+          <span class="thumb-sm avatar float-left">
+            <img class="rounded-square-nav" [src]="'assets/img/avatar.png'" alt="..." onError="this.src='assets/img/user.png'">
+          </span>
+          &nbsp;
+          <span class="hidden-sm-down text-white"> {{personal.firstname || ''}} &nbsp; </span>
+        </a>
+      </li>
+      <li class="nav-item dropdown hidden-md hidden-lg hidden-xl">
+        <a href class="nav-link dropdown-toggle" data-toggle="dropdown">
+          &nbsp;&nbsp;
+          <i class="fa fa-bars fa-lg text-white"></i>&nbsp;
+          <span class="text-white hidden-sm-down">
+            Menu
+          </span>&nbsp;
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'dashboard'] ">
+              <i class="fa fa-tachometer"></i> &nbsp; Portal Dashboard</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'users'] ">
+              <i class="fa fa-users"></i> &nbsp; Users Manager</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'streets'] ">
+              <i class="fa fa-map"></i> &nbsp; Street Records</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'properties'] ">
+              <i class="fa fa-building"></i> &nbsp; Property Records</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'support'] ">
+              <i class="fa fa-question-circle-o"></i> &nbsp; Support</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" (click)="logOut()">
+              <i class="fa fa-sign-out"></i> &nbsp; Log Out</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
