@@ -1,0 +1,214 @@
+<div class="row">
+  <div class="col-lg-10 offset-lg-1 col-sm-12 offset-sm-0">
+    <section class="widget card-interface bg-white" widget>
+      <header>
+        <h1 class="page-title">
+          Edit
+          <span class="fw-semi-bold text-center">Entity Record</span>
+        </h1>
+      </header>
+      <div class="widget-body">
+        <form class="form-horizontal form-label-left parsleyjs" method="post" data-parsley-priority-enabled="false" novalidate="novalidate"
+          (ngSubmit)="updateEntity()">
+          <fieldset>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <legend>
+                  Entity Name
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Entity Name" id="entity_name" maxlength="60" name="entity_name" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.entity.entity_name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <legend>
+                  Has Signage
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.has_signage" id="has_signage" name="has_signage">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <legend>
+                  Entity Group
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" (change)="loadCategory($event)" [(ngModel)]="payload.entity.entity_group" id="entity_group"
+                      name="entity_group">
+                      <option *ngFor="let data of formConfig.entityGroup" value="{{ data.title }}">{{ data.title }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <legend>
+                  Entity Category
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.entity_category" id="category" name="category">
+                      <option *ngFor="let data of entityGroup" value="{{ data.title }}">{{ data.title }}</option>
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Contact Person
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Contact Fullname" id="contact_person" maxlength="60" name="contact_peson" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.contact.contact_person">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Email
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Email" id="email" maxlength="100" name="email" class="form-control form-control-md" required="required"
+                      [(ngModel)]="payload.contact.email">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Telephone
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="tel" placeholder="Telephone" id="telephone" maxlength="100" name="telephone" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.contact.telephone">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Meter Available
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.meter_available" id="meter" name="meter">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Meter Condition
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.meter_condition" id="meter_condition" name="meter_condition">
+                      <option *ngFor="let data of formConfig.meterCondition" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Meter Phases
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.meter_phases" id="meter_phases" name="meter_phases">
+                      <option *ngFor="let data of formConfig.meterPhases" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Meter Type
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.meter_type" id="meter_type" name="meter_type">
+                      <option *ngFor="let data of formConfig.meterType" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                 Meter Number
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                      <input type="text" placeholder="Meter Number" id="meter_number" maxlength="60" name="meter_number" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.entity.meter_number">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                 Boys Quarter
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="number" placeholder="Boys Quarter" id="boys_quarter" maxlength="60" name="boys_quarter" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.entity.boys_quarter">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+          <div class="form-actions bg-white">
+            <button *ngIf="!publishSwitch" type="submit" class="btn btn-success btn-rounded float-xs-right">Update Record</button>
+            <a *ngIf="publishSwitch" class="btn btn-grey" disabled>
+              <span class="spinner">
+                <i class="fa fa-spinner fa-spin"></i>
+                Publishing...
+              </span>
+            </a>
+            <a *ngIf="!publishSwitch" class="btn btn-default btn-rounded" (click)="cancelClick()">
+              <i class="fa fa-reply"></i>
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

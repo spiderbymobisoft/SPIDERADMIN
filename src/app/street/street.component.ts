@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RetrieveService } from '../services/http/crud/retrieve.services';
 import { SharedServices } from '../services/shared/shared.services';
+import { DeleteService } from '../services/http/crud/delete.services';
 
 declare var jQuery: any;
 declare var swal: any;
@@ -15,9 +16,7 @@ declare var swal: any;
 export class Street implements OnInit {
   public propertyRecords: any[];
   private streetRecord: any;
-  constructor(
-    private router: Router, private rs: RetrieveService, private ss: SharedServices
-  ) {
+  constructor(private ds: DeleteService, private router: Router, private rs: RetrieveService, private ss: SharedServices) {
     this.streetRecord = ss.getRecord('street');
   }
 
@@ -33,15 +32,37 @@ export class Street implements OnInit {
     });
   }
 
-
+  goToEditPropertyPage(record){
+    this.ss.setRecord('property', record);
+    this.router.navigate(['app/property/edit']);
+  }
 
   goToPropertyPage(record) {
     this.ss.setRecord('property', record);
     this.router.navigate(['app/property']);
   }
 
-  deleteRecord(id){
-    this.ss.swalAlert('Data Service','Record cannot be delete at this time','error');
+  deleteRecord(id) {
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FF0000',
+      cancelButtonColor: '#0871FA',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(()=>{
+      this.ds.deleteProperty(id).subscribe(response =>{
+        if(response.success){
+          this.getPropertyRecords();
+          this.ss.swalAlert('Data Service', 'Record deleted!', 'success');
+        }else{
+          this.ss.swalAlert('Data Service', 'Record cannot be delete at this time. Please try again or contact SPiDER support!', 'error');
+        }
+      },err=>{
+        this.ss.swalAlert('Network Service', 'Record cannot be delete at this time. Please check your internet connection and try again!', 'error');
+      });
+    });
   }
 
 }

@@ -1,48 +1,74 @@
 <div class="container">
   <main id="content" class="widget-login-container" role="main">
     <div class="row">
-      <div class="col-xl-4 col-md-6 col-10 offset-xl-4 offset-md-3 offset-1">
+      <div class="col-lg-4 col-md-6 col-12 offset-lg-4 offset-md-3 offset-0">
         <h5 class="widget-login-logo animated fadeInUp">
           <img src="assets/icon/header.png" alt="">
         </h5>
         <section class="widget widget-login animated fadeInUp bg-white">
-          <header>
-            <h4>Sign In</h4>
-          </header>
-          <div class="widget-body">
-            <form class="login-form mt-lg">
+          <form class="login-form mt-sm">
+            <header class="text-center">
+              <div class="text-center mb-sm">
+                <h3>Sign in as</h3>
+              </div>
+              <div class="btn-group btn-group-md btn-group-toggle" data-toggle="buttons">
+                <label (click)="userType = 'Individual'" class="btn btn-primary {{ userType === 'Individual' ? 'active' : '' }}">
+                  <input type="radio" name="userType"> Individual
+                </label>
+                <label (click)="userType = 'Organisation'" class="btn btn-primary {{ userType === 'Organisation' ? 'active' : '' }}">
+                  <input type="radio" name="userType"> Organisation
+                </label>
+              </div>
+            </header>
+            <div class="widget-body mt-md">
               <div class="form-group row">
-              <div class="col-md-12 ">
-                <div class="input-group input-group-lg">
-                  <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-                  <input id="email" name="email" class="form-control" size="16" type="email" placeholder="Email" [(ngModel)]="user.email">
+                <div class="col-md-12 ">
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-addon bg-primary text-white">
+                      <i class="fa fa-envelope-o"></i>
+                    </span>
+                    <input id="email" name="email" class="form-control" size="16" type="email" placeholder="Email" [(ngModel)]="user.email">
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-md-12 ">
-                <div class="input-group input-group-lg">
-                  <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                  <input (keyup.enter)="validateLogin()" type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" placeholder="Password">
+              <div class="form-group row">
+                <div class="col-md-12 ">
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-addon bg-primary text-white">
+                      <i class="fa fa-lock"></i>
+                    </span>
+                    <input (keyup.enter)="validateLogin()" type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
+                      placeholder="Password">
+                  </div>
                 </div>
               </div>
-            </div>
               <div class="clearfix">
-                <div class="btn-toolbar float-right m-t-1">
-                  <a *ngIf="!loginSwitch" class="btn btn-primary btn-md text-white" (click)="validateLogin()">Login</a>
-                  <a *ngIf="loginSwitch" class="btn btn-grey" disabled><span class="spinner">
-                    <i class="fa fa-spinner fa-spin"></i>
-                    Signing you in...
-                  </span></a>
+                <div class="row">
+                  <div class="col-12">
+                    <a *ngIf="!loginSwitch" class="btn btn-block btn-primary btn-md text-white" (click)="validateLogin()">Login</a>
+                    <a *ngIf="loginSwitch" class="btn btn-block btn-grey" disabled>
+                      <span class="spinner">
+                        <i class="fa fa-spinner fa-spin"></i>
+                        Signing you in...
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </form>
-          </div>
+              <div class="clearfix mt-md">
+                <div class="row">
+                  <div class="col-6 text-left">
+                      <a routerLink="/register">Create new account</a>
+                  </div>
+                  <div class="col-6 text-right">
+                     <!--  <a routerLink="#">Forgot password?</a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </section>
       </div>
     </div>
   </main>
-<!--   <footer class="page-footer text-white">
-    {{footerText}}
-  </footer> -->
 </div>

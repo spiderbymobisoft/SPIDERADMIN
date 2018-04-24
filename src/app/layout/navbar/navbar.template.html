@@ -37,10 +37,15 @@
           </li>
           <li class="dropdown-divider"></li>
           <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'user'] ">
+              <i class="fa fa-user"></i> &nbsp; My Account</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li *ngIf="isAdmin">
             <a class="dropdown-item" [routerLink]=" ['/app', 'users'] ">
               <i class="fa fa-users"></i> &nbsp; Users Manager</a>
           </li>
-          <li class="dropdown-divider"></li>
+          <li  *ngIf="isAdmin" class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item" [routerLink]=" ['/app', 'streets'] ">
               <i class="fa fa-map"></i> &nbsp; Street Records</a>

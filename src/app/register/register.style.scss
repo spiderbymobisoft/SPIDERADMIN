@@ -10,6 +10,8 @@
 
 .register-page{
   background-color: $white;
+  background-image: url('assets/img/login-background.jpg');
+  background-attachment: fixed !important;
 }
 
 .register-page .page-footer {
@@ -45,7 +47,7 @@
 }
 
 .widget-login{
-  padding: 30px;
+  padding: 20px;
 
   > header{
     h1,h2,h3,h4,h5,h6{
@@ -73,16 +75,19 @@
     padding: .375rem .75rem .375rem .75rem;
   }
 }
+
 .login-form{
   .form-control{
-    font-size: $font-size-14;
-    border: none;
-    background-color: $gray-lighter;
+    font-size: $font-size-mini;
+    border: 1px solid #888;
+    background-color: #FFF;
     &:focus{
-      background-color: $gray-semi-lighter;
+      border: 1px solid $brand-primary;
+      background-color: #FFF;
     }
   }
 }
+
 /***********************************/
 /**            PARSLEY            **/
 /***********************************/

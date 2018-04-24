@@ -28,10 +28,26 @@ export class DeleteService{
         this.options = new RequestOptions({ headers: this.headers });
     }
     
-    removeSkill(skill): Observable<any> {
-        let body = JSON.stringify(skill);
+    deleteProperty(propertyID): Observable<any> {
+        let body = JSON.stringify({id: propertyID});
         return this.http
-            .patch(this.url+'user/skill/remove', body, this.options)
+            .patch(this.url+'remove/property', body, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    } 
+
+    deleteStreet(streetID): Observable<any> {
+        let body = JSON.stringify({id: streetID});
+        return this.http
+            .patch(this.url+'remove/street', body, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    } 
+
+    deleteEntity(entityID): Observable<any> {
+        let body = JSON.stringify({id: entityID});
+        return this.http
+            .patch(this.url+'remove/entity', body, this.options)
             .map(this.extractData)
             .catch(this.handleError);
     } 

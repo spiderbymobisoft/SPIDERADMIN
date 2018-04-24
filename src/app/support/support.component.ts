@@ -92,7 +92,7 @@ export class Support implements OnInit {
               type: 'success',
               allowEscapeKey: false,
               allowOutsideClick: false,
-              confirmButtonColor: '#0A9F62',
+              confirmButtonColor: '#0871FA',
               confirmButtonClass: 'btn btn-md btn-primary'
             }).then(() => {
               this.message = '';
@@ -109,7 +109,7 @@ export class Support implements OnInit {
             type: 'warning',
             allowEscapeKey: false,
             allowOutsideClick: false,
-            confirmButtonColor: '#0A9F62',
+            confirmButtonColor: '#0871FA',
             confirmButtonClass: 'btn btn-md btn-primary'
           });
       }

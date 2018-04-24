@@ -15,9 +15,10 @@ declare var swal: any;
   styleUrls: ['./streets.style.scss']
 })
 export class Streets implements OnInit {
-  _streetRecords: any[]=[];
-  streetRecords: any[]=[];
+  _streetRecords: any[] = [];
+  streetRecords: any[] = [];
   searchText: string = '';
+  user: any;
   private intelligence: any = new Intelligence();
 
   constructor(
@@ -28,18 +29,59 @@ export class Streets implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getStreetRecords();
+    this.user = this.ss.USER();
+    this.recordsInit();
+  }
+
+  recordsInit() {
+    if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Super') {
+      this.getStreetRecords();
+    }
+
+    if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Organisation') {
+      this.getOrganisationStreetRecords();
+    }
+
+    if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Individual') {
+      this.getIndividualStreetRecords();
+    }
+
+    if (this.user.security.user_type === 'undefined') {
+      this.getIndividualStreetRecords();
+    }
   }
 
 
   getStreetRecords() {
     this.rs.getAllStreetRecords().subscribe(response => {
       this._streetRecords = response.result;
-      this._streetRecords.forEach(data =>{
+      this._streetRecords.forEach(data => {
         this.streetRecords.push(data);
       });
     }, err => {
-      this.ss.swalAlert('Newtork Service','No internet connection. Please connect and refresh.', 'error');
+      this.ss.swalAlert('Newtork Service', 'No internet connection. Please connect and refresh.', 'error');
+    });
+  }
+
+  getOrganisationStreetRecords() {
+    this.rs.getOrganisationStreetRecords(this.user._id).subscribe(response => {
+      this._streetRecords = response.result;
+      this._streetRecords.forEach(data => {
+        this.streetRecords.push(data);
+      });
+    }, err => {
+      this.ss.swalAlert('Newtork Service', 'No internet connection. Please connect and refresh.', 'error');
+    });
+  }
+
+  getIndividualStreetRecords() {
+    this.rs.getIndividualStreetRecords(this.user._id).subscribe(response => {
+      this._streetRecords = response.result;
+      this._streetRecords.forEach(data => {
+        this.streetRecords.push(data);
+      });
+    }, err => {
+      this.ss.swalAlert('Newtork Service', 'No internet connection. Please connect and refresh.', 'error');
     });
   }
 
@@ -49,8 +91,32 @@ export class Streets implements OnInit {
     this.router.navigate(['app/street']);
   }
 
-  deleteRecord(id){
-    this.ss.swalAlert('Data Service','Record cannot be delete at this time','error');
+  openEditStreetPage(record){
+    this.ss.setRecord('street', record);
+    this.router.navigate(['app/street/edit']);
+  }
+
+  deleteRecord(id) {
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FF0000',
+      cancelButtonColor: '#0871FA',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(()=>{
+      this.ds.deleteStreet(id).subscribe(response =>{
+        if(response.success){
+          this.recordsInit();
+          this.ss.swalAlert('Data Service', 'Record deleted!', 'success');
+        }else{
+          this.ss.swalAlert('Data Service', 'Record cannot be delete at this time. Please try again or contact SPiDER support!', 'error');
+        }
+      },err=>{
+        this.ss.swalAlert('Network Service', 'Record cannot be delete at this time. Please check your internet connection and try again!', 'error');
+      });
+    });
   }
 
 

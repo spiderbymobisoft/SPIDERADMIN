@@ -2,6 +2,7 @@
 @import "../../../node_modules/bootstrap/scss/_variables";
 @import "../../../node_modules/bootstrap/scss/mixins";
 
+users {
   .text-center {
     text-align: center;
   }
@@ -83,3 +84,43 @@ input.parsley-error{
   padding-left: 20px;
   background: rgb(100, 189, 99);
 }
+
+
+/** FORM **/
+
+.widget-login{
+  padding: 30px;
+
+  > header{
+    h1,h2,h3,h4,h5,h6{
+      font-weight: $font-weight-normal;
+      text-align: center;
+    }
+  }
+}
+
+.input-group {
+  width: auto;
+  .input-group-addon {
+    border: 0px;
+    padding: .375rem .75rem .375rem .75rem;
+  }
+}
+.login-form{
+  .form-control{
+    font-size: $font-size-14;
+    border: 1px solid $gray-semi-lighter;
+    background-color: #FFF;
+    &:focus{
+      border: 1px solid $brand-primary;
+      background-color:#FFF;
+    }
+  }
+}
+
+.error-highlight{
+  border: 1px solid $brand-danger;
+      background-color:#FFF;
+}
+}
+ 

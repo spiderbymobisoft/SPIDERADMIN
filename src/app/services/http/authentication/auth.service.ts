@@ -66,6 +66,26 @@ export class AuthenticationService{
         });
     }
 
+    authenticateOrganisation(user) {
+        var creds = JSON.stringify(user);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization' , this.authorization);
+        return new Promise(resolve => {
+            this.http.post(`${this.url}authenticate/organisation`, creds, {headers: headers}).subscribe(data => {
+                let _data = data.json();
+                if(_data.success){
+                    this.storeUserCredentials(_data.token, _data.result);
+                    resolve(true);
+                }
+                else
+                    resolve(false);
+            },(err)=>{
+                resolve(false);
+            });
+        });
+    }
+
     isAuthenticated() : boolean{
         return this.ss.ACCESS();
     }

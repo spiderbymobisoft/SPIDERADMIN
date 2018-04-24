@@ -1,6 +1,6 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
@@ -31,6 +31,8 @@ import{ VerificationService } from './services/http/verification/verification.se
 
 import { ErrorComponent } from './error/error.component';
 import { SharedServices } from 'app/services/shared/shared.services';
+import { CanActivateViaRoleGuard } from './services/http/authentication/role.guard';
+import { FormConfig } from './services/shared/form.config';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -39,6 +41,7 @@ const APP_PROVIDERS = [
   AppConfig,
   APIConfig,
   CanActivateViaAuthGuard,
+  CanActivateViaRoleGuard,
   AuthenticationService,
   CreateService,
   RetrieveService,
@@ -48,7 +51,8 @@ const APP_PROVIDERS = [
   PlaceholderService,
   NigeriaStatesService,
   VerificationService,
-  SharedServices
+  SharedServices,
+  FormConfig
 ];
 
 type StoreType = {
@@ -69,6 +73,7 @@ type StoreType = {
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],

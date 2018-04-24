@@ -43,6 +43,25 @@ export class CreateService{
         });
     } 
 
+    //ADD NEW ORGANISATION
+    addOrganisation(user) {
+        let headers = new Headers({ 'Content-Type' : 'application/json' });
+        headers.append('Authorization' , this.authorization);
+        return new Promise(resolve => {
+            this.http.post(this.url+'organisation', JSON.stringify(user), {headers: headers}).subscribe(response => {
+                console.log('RES', response.json());
+                let data = response.json();
+                if(data.success){
+                    resolve(true);
+                }
+                else
+                    resolve(false);
+            },(err)=>{
+                resolve(false);
+            });
+        });
+    } 
+
     //SUPPORT DIRECT MESSAGE
     publishSupportMessage(payload){
         

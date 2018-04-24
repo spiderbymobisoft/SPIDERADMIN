@@ -44,11 +44,29 @@ export class RetrieveService {
       .catch(this.handleError);
   }
 
-  getUsers(start): Observable<any> {
+  verifyOrganisation(email): Observable<VerifyEmailModel> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}users/${start}/${this.limit}`, options)
+    return this.http.get(`${this.url}verify/organisation/${email}`, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getUsers(): Observable<any> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.authorization);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.url}users`, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getOrganisationUsers(owner): Observable<any> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.authorization);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.url}organisation/users/${owner}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -73,6 +91,26 @@ export class RetrieveService {
       .catch(this.handleError);
   }
 
+  getOrganisationPropertyRecords(owner): Observable<any> {
+    // /let body = JSON.stringify(payload); 
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.authorization);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.url}organisation/properties/${owner}`, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getIndividualPropertyRecords(owner): Observable<any> {
+    // /let body = JSON.stringify(payload); 
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.authorization);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.url}individual/properties/${owner}`, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   getStreetRecords(start): Observable<any> {
     // /let body = JSON.stringify(payload); 
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -93,6 +131,27 @@ export class RetrieveService {
       .map(this.extractData)
       .catch(this.handleError);
   }
+
+  getOrganisationStreetRecords(owner): Observable<any> {
+    // /let body = JSON.stringify(payload); 
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.authorization);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.url}organisation/streets/${owner}`, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getIndividualStreetRecords(owner): Observable<any> {
+    // /let body = JSON.stringify(payload); 
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.authorization);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.url}individual/streets/${owner}`, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  
 
   getStreetRecordsByUser(userId): Observable<any> { 
     let headers = new Headers({ 'Content-Type': 'application/json' });

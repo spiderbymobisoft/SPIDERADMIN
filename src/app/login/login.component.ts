@@ -21,9 +21,11 @@ export class Login {
     email: '',
     password: ''
   }
+  
   public loginSwitch: boolean;
   public loginMessage: string;
   private savecredentials = false;
+  public userType: string = 'Individual';
   private allowAccess: string = window.localStorage.getItem('remember');
 
   constructor(private apiConfig: APIConfig, private auth: AuthenticationService, 
@@ -31,7 +33,15 @@ export class Login {
 
   }
 
-  validateLogin() {
+  setUserType(value){
+    this.userType = value;
+  }
+
+  validateLogin(){
+    this.userType == 'Individual' ? this.validateUser() : this.validateOrganisation();
+  }
+
+  validateUser() {
     this.loginSwitch = true;
     if (!this.user.email || !this.user.password) {
       this.loginSwitch = false;
@@ -39,6 +49,34 @@ export class Login {
       this.ss.swalAlert('Account Service',this.loginMessage,'error');
     } else {
       this.auth.authenticate(this.user).then(res => {
+        if (res) {
+          if (this.savecredentials) {
+            window.localStorage.setItem('remember', 'true');
+            this.router.navigate(['app/dashboard']);
+          } else {
+            this.router.navigate(['app/dashboard']);
+          }
+        } else {
+          this.loginSwitch = false;
+          this.loginMessage = 'Unable to authenticate you with the provided email and password!';
+          this.ss.swalAlert('Account Service',this.loginMessage,'error');
+        }
+      },err=>{
+        this.loginSwitch = false;
+        this.loginMessage = 'Network connection error! Please try again.';
+        this.ss.swalAlert('Account Service',this.loginMessage,'error');
+      });
+    }
+  }
+
+  validateOrganisation() {
+    this.loginSwitch = true;
+    if (!this.user.email || !this.user.password) {
+      this.loginSwitch = false;
+      this.loginMessage = 'Invalid email or password!';
+      this.ss.swalAlert('Account Service',this.loginMessage,'error');
+    } else {
+      this.auth.authenticateOrganisation(this.user).then(res => {
         if (res) {
           if (this.savecredentials) {
             window.localStorage.setItem('remember', 'true');

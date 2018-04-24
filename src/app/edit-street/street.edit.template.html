@@ -1,0 +1,236 @@
+<div class="row">
+  <div class="col-lg-10 offset-lg-1 col-sm-12 offset-sm-0">
+    <section class="widget card-interface bg-white" widget>
+      <header>
+        <h1 class="page-title">
+          Edit
+          <span class="fw-semi-bold text-center">Street Record</span>
+        </h1>
+      </header>
+      <div class="widget-body">
+        <form class="form-horizontal form-label-left parsleyjs" method="post" data-parsley-priority-enabled="false" novalidate="novalidate"
+          (ngSubmit)="updateStreet()">
+          <fieldset>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  GIS ID
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <div class="input-group">
+                        <input type="text" placeholder="Click to generate GIS ID" id="gis_id" maxlength="20" name="gis_id" class="form-control form-control-md"
+                        required="required" [(ngModel)]="payload.street.gis_id" readonly>
+                      <div class="input-group-append">
+                        <button (click)="generateGISID()" type="button" class="btn btn-primary">
+                          <i class="fa fa-magic"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Drainage
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.drainage" id="drainage" name="drainage">
+                      <option *ngFor="let drainage of formConfig.drainage" value="{{ drainage }}">{{ drainage }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Electricity
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.electricity" id="electricity" name="electricity">
+                      <option *ngFor="let electricity of formConfig.electricity" value="{{ electricity }}">{{ electricity }}</option>
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Street Name
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Street Name" id="street_name" maxlength="60" name="street_name" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.street.street_name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Area
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Area" id="area" maxlength="60" name="area" class="form-control form-control-md" required="required"
+                      [(ngModel)]="payload.street.area">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Location
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Location" id="location" maxlength="60" name="location" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.street.location">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Country
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.country" id="country" name="country">
+                      <option selected="selected" value="Nigeria">Nigeria</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  State
+                </legend>
+                <div class="form-group">
+                  <div>
+                    <select (change)="loadCity($event)" required="required" class="btn btn-lg btn-select" [(ngModel)]="payload.street.state"
+                      id="state" name="state">
+                      <option *ngFor="let state of nigeriaStates" value="{{ state }}">{{ state }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  LGA
+                </legend>
+                <div class="form-group">
+                  <div>
+                    <select required="required" class="btn btn-lg btn-select" [(ngModel)]="payload.street.lga" id="city" name="city">
+                      <option *ngFor="let city of stateCities" value="{{ city.name }}">{{ city.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Road Feature
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.road_feature" id="road_feature" name="road_feature" multiple>
+                      <option *ngFor="let data of formConfig.roadFeature" value="{{ data }}">{{ data }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Road Type
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.road_type" id="road_type" name="road_type">
+                      <option *ngFor="let data of formConfig.roadType" value="{{ data }}">{{ data }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Road Condition
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.road_condition" id="road_type" name="road_condition">
+                      <option *ngFor="let data of formConfig.roadCondition" value="{{ data }}">{{ data }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Street Furniture
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.street_furniture" id="street_furniture" name="street_furniture"
+                      multiple="multiple">
+                      <option *ngFor="let data of formConfig.streetFurniture" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Refuse Disposal
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.street.refuse_disposal" id="refuse_disposal" name="refuse_disposal">
+                      <option *ngFor="let data of formConfig.refuseDisposal" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+              </div>
+
+            </div>
+
+          </fieldset>
+          <div class="form-actions bg-white">
+            <button *ngIf="!publishSwitch" type="submit" class="btn btn-success btn-rounded float-xs-right">Update Record</button>
+            <a *ngIf="publishSwitch" class="btn btn-grey" disabled>
+              <span class="spinner">
+                <i class="fa fa-spinner fa-spin"></i>
+                Publishing...
+              </span>
+            </a>
+            <a *ngIf="!publishSwitch" class="btn btn-default btn-rounded" (click)="cancelClick()">
+              <i class="fa fa-reply"></i>
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

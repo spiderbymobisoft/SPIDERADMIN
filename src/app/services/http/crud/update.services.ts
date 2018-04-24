@@ -31,10 +31,43 @@ export class UpdateService {
         this.options = new RequestOptions({ headers: this.headers });
     }
 
-    updateUser(payload): Observable<any> {
+    updateStreet(payload): Observable<any> {
+        let body = JSON.stringify(payload);
+        return this.http
+            .patch(this.url + 'street', body, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateProperty(payload): Observable<any> {
+        let body = JSON.stringify(payload);
+        return this.http
+            .patch(this.url + 'property', body, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateEntity(payload): Observable<any> {
+        let body = JSON.stringify(payload);
+        return this.http
+            .patch(this.url + 'entity', body, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+
+    updateIndividual(payload): Observable<any> {
         let body = JSON.stringify(payload);
         return this.http
             .patch(this.url + 'user', body, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateOrganisation(payload): Observable<any> {
+        let body = JSON.stringify(payload);
+        return this.http
+            .patch(this.url + 'organisation', body, this.options)
             .map(this.extractData)
             .catch(this.handleError);
     }

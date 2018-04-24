@@ -73,10 +73,11 @@
 .login-form{
   .form-control{
     font-size: $font-size-mini;
-    border: none;
-    background-color: $gray-lighter;
+    border: 1px solid #888;
+    background-color: #FFF;
     &:focus{
-      background-color: $gray-semi-lighter;
+      border: 1px solid $brand-primary;
+      background-color: #FFF;
     }
   }
 }

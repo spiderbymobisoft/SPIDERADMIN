@@ -15,7 +15,7 @@ declare var swal: any;
 })
 export class Properties implements OnInit {
   propertyRecords: any[];
-
+  public user: any;
   constructor(
     private router: Router, private ds: DeleteService,
     public rs: RetrieveService, private ss: SharedServices
@@ -24,7 +24,26 @@ export class Properties implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPropertyRecords();
+    this.user = this.ss.USER();
+    this.recordsInit();
+  }
+
+  recordsInit() {
+    if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Super') {
+      this.getPropertyRecords();
+    }
+
+    if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Organisation') {
+      this.getOrganisationPropertyRecords();
+    }
+
+    if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Individual') {
+      this.getIndividualPropertyRecords();
+    }
+
+    if (this.user.security.user_type === 'undefined') {
+      this.getIndividualPropertyRecords();
+    }
   }
 
   getPropertyRecords(){
@@ -35,15 +54,53 @@ export class Properties implements OnInit {
     });
   }
 
+  getOrganisationPropertyRecords(){
+    this.rs.getOrganisationPropertyRecords(this.user._id).subscribe(response=>{
+      this.propertyRecords = response.result;
+    }, err=>{
+      this.ss.swalAlert('Newtork Service','No internet connection. Please connect and refresh.', 'error');
+    });
+  }
 
+  getIndividualPropertyRecords(){
+    this.rs.getIndividualPropertyRecords(this.user._id).subscribe(response=>{
+      this.propertyRecords = response.result;
+    }, err=>{
+      this.ss.swalAlert('Newtork Service','No internet connection. Please connect and refresh.', 'error');
+    });
+  }
+
+  goToEditPropertyPage(record){
+    this.ss.setRecord('property', record);
+    this.router.navigate(['app/property/edit']);
+  }
 
   goToPropertyPage(record) {
     this.ss.setRecord('property', record);
     this.router.navigate(['app/property']);
   }
 
-  deleteRecord(id){
-    this.ss.swalAlert('Data Service','Record cannot be delete at this time','error');
+  deleteRecord(id) {
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FF0000',
+      cancelButtonColor: '#0871FA',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(()=>{
+      this.ds.deleteProperty(id).subscribe(response =>{
+        if(response.success){
+          this.recordsInit();
+          this.ss.swalAlert('Data Service', 'Record deleted!', 'success');
+        }else{
+          this.ss.swalAlert('Data Service', 'Record cannot be delete at this time. Please try again or contact SPiDER support!', 'error');
+        }
+      },err=>{
+        this.ss.swalAlert('Network Service', 'Record cannot be delete at this time. Please check your internet connection and try again!', 'error');
+      });
+    });
   }
 
 

@@ -2,27 +2,39 @@
   <li class="breadcrumb-item">Dashboard</li>
   <li class="breadcrumb-item {{display === 'users' ? 'active' : '' }}">Users Manager</li>
   <li *ngIf="display === 'user'" class="breadcrumb-item active">{{ 'Managing ' + user.firstname }}</li>
+  <li *ngIf="display === 'new-user'" class="breadcrumb-item active">Add New User</li>
 </ol>
 <div *ngIf="display === 'users'" class="row">
-  <div *ngIf="thisUser.security.role === 'Admin'" class="col-12 animated slideInLeft">
+  <div *ngIf="thisUser.security.role === 'Admin' || thisUser.security.user_type === 'Organisation'" class="col-sm-12 col-md-12 col-lg-6 mb-lg animated slideInLeft">
     <a (click)="openNewUserPage()" class="btn btn-md btn-primary pull-left text-white">Add New User
       <i class="fa fa-user-plus pull-left large-icon-md margin-top-3"></i>
     </a>
   </div>
-  <div class="col-12">
-    &nbsp;
+  <div class="col-sm-12 col-md-12 col-lg-6 mb-lg animated slideInRight">
+    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+      <span class="input-group-addon bg-primary text-white">
+        <i class="fa fa-search"></i>
+      </span>
+      <input class="form-control form-control-sm" id="user-search-input" [(ngModel)]="searchText" type="text" placeholder=" Search Firstname, Lastname or Organisation">
+    </div>
   </div>
 </div>
 <div class="row" *ngIf="display === 'users'">
-  <div class="col-lg-4 col-12 animated pulse" *ngFor="let i of users">
+  <div class="col-lg-4 col-12 animated pulse" *ngFor="let i of users | SearchPipe : searchText">
     <section widget class="widget card-interface">
       <div class="widget-body text-center">
         <div class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black ">
           <img src="{{ i.avatar }}" height="100px" alt="">
-          <h3 class="mt-lg mb-lg">
+          <h3 class="mt-lg mb-lg" *ngIf="i.user_type === 'Super' || i.user_type === 'Organisation'">
+            {{ i.organisation || 'N/A' }}
+          </h3>
+          <h3 class="mt-lg mb-lg" *ngIf="i.user_type === 'Individual'">
             {{ i.firstname + ' ' + i.lastname }}
           </h3>
           <div>
+            <span class="badge badge-pill {{ i.user_type === 'Super' ? 'badge-super' : i.user_type === 'Organisation' ? 'badge-organisation' : 'badge-individual' }}">
+              {{ i.user_type ? i.user_type : 'Individual' }}
+            </span> &nbsp;
             <span class="{{ i.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
               {{ i.is_active ? 'Active' : 'In-Active' }}
             </span> &nbsp;
@@ -40,6 +52,20 @@
       </div>
     </section>
   </div>
+
+  <div *ngIf="users.length === 0" class="col-12 animated pulse text-center">
+    <section widget class="widget card-interface">
+      <div class="widget-body text-center">
+        <div class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black ">
+          <img src="assets/icon/user.svg" height="100px" alt="">
+          <h3 class="mt-lg mb-lg">
+            {{ loadingUser ? 'Loading Accounts' : 'No user account'}}
+          </h3>
+        </div>
+      </div>
+    </section>
+  </div>
+
 </div>
 
 <div *ngIf="closeButton" class="row animated bounceInDown">
@@ -63,10 +89,16 @@
 
       <div class="widget-middle-overflow windget-padding-md clearfix text-center text-black ">
         <img src="{{ user.avatar }}" height="80px" alt="">
-        <h3>
+        <h3 *ngIf="user.user_type === 'Super' || user.user_type === 'Organisation'">
+          {{ user.organisation }}
+        </h3>
+        <h3 *ngIf="user.user_type === 'Individual'">
           {{ user.firstname + ' ' + user.lastname }}
         </h3>
         <div>
+          <span class="badge badge-pill {{ user.user_type === 'Super' ? 'badge-super' : user.user_type === 'Organisation' ? 'badge-organisation' : 'badge-individual' }}">
+            {{ user.user_type ? user.user_type : 'Individual' }}
+          </span> &nbsp;
           <span class="{{ user.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
             {{ user.is_active ? 'Active' : 'In-Active' }}
           </span> &nbsp;
@@ -116,26 +148,54 @@
                   </span> User Information
                 </legend>
                 <div class="form-group row">
-                  <label class="form-control-label col-md-3 col-xs-12" for="telephone">Telephone</label>
-                  <div class="col-md-9 col-xs-12">
+                  <div class="col-12">
+                    <label for="firstname">Firstname</label>
+                  </div>
+                  <div class="col-12">
+                    <input type="text" id="firstname" name="firstname" class="form-control" required="" [(ngModel)]="user.firstname">
+                  </div>
+                  <div class="col-12">
+                    <label for="lastname">Lastname</label>
+                  </div>
+                  <div class="col-12">
+                    <input type="text" id="lastname" name="lastname" class="form-control" required="" [(ngModel)]="user.lastname">
+                  </div>
+                  <div class="col-12">
+                    <label for="Organisation">Organisation</label>
+                  </div>
+                  <div class="col-12">
+                    <input type="text" id="organisation" name="organisation" class="form-control" required="" [(ngModel)]="user.organisation">
+                  </div>
+                  <div class="col-12">
+                    <label for="telephone">Telephone</label>
+                  </div>
+                  <div class="col-12">
                     <input type="tel" id="telephone" name="telephone" class="form-control" required="" [(ngModel)]="user.mobile">
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label class="form-control-label col-md-3 col-xs-12" for="roles">User Role</label>
-                  <div class="col-md-9 col-xs-12">
-                    <select2 id="roles" name="roles" ngDefaultControl class="form-control" (valueChanged)="userRoleChanged($event)" [value]="user.role"
-                      [data]="getUserRoles()" [width]="250" [(ngModel)]="user.role"></select2>
+                <div *ngIf="thisUser._id !== user.id">
+                  <div class="form-group row">
+                    <div class="col-12">
+                      <label for="roles">Select User Role</label>
+                    </div>
+                    <div class="col-md-12">
+                      <select id="roles" name="roles" class="form-control form-control-md" [(ngModel)]="user.role">
+                        <option value="Admin">Admin</option>
+                        <option value="Data Miner">Data Miner</option>
+                        <option value="Data Reporter">Data Reporter</option>
+                        <option value="Field Agent">Field Agent</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="form-control-label col-md-3 col-xs-12" for="access_control">Access Control</label>
-                  <div class="col-md-9 col-xs-12">
-                    <div class="display-inline-block checkbox-ios">
-                      <label for="access_control" class="switch">
-                        <input type="checkbox" class="ios" checked id="access_control" name="access_control" [(ngModel)]="user.is_active">
-                        <i></i>
-                      </label>
+                  <div class="form-group row">
+                    <label class="form-control-label col-md-3 col-xs-12" for="access_control">Access Control</label>
+                    <div class="col-md-9 col-xs-12">
+                      <div class="display-inline-block checkbox-ios">
+                        <label for="access_control" class="switch">
+                          <input type="checkbox" class="ios" checked id="access_control" name="access_control" [(ngModel)]="user.is_active">
+                          <i></i>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -152,6 +212,103 @@
           </div>
 
         </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ADD NEW USER -->
+
+<div *ngIf="display === 'new-user'" class="row profile">
+  <div class="col-lg-6 col-12 animated pulse">
+    <section class="widget widget-login animated pulse card-interface">
+      <header>
+        <span class="text-danger">Please provide all fields</span>
+      </header>
+      <div class="widget-body">
+        <form [formGroup]="regForm" novalidate class="login-form" (ngSubmit)="registerUser()">
+          <div class="form-group row">
+            <div class="col-md-12">
+              <div class="input-group input-group-md">
+                <span class="input-group-addon bg-primary text-white">
+                  <i class="fa fa-user"></i>
+                </span>
+                <input id="firstname" name="firstname" class="form-control" size="16" type="text" placeholder="Firstname" formControlName="firstname">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-md">
+                <span class="input-group-addon bg-primary text-white">
+                  <i class="fa fa-user"></i>
+                </span>
+                <input id="lastname" name="lastname" class="form-control" size="16" type="text" formControlName="lastname" placeholder="Lastname">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-md">
+                <span class="input-group-addon bg-primary text-white">
+                  <i class="fa fa-envelope-o"></i>
+                </span>
+                <input id="email" name="email" class="form-control" size="16" type="email" formControlName="email" placeholder="Email">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-md">
+                <span class="input-group-addon bg-primary text-white">
+                  <i class="fa fa-phone"></i>
+                </span>
+                <input id="mobile" name="mobile" class="form-control" size="30" type="tel" formControlName="mobile" placeholder="Telephone">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12 ">
+              <div class="input-group input-group-md">
+                <span class="input-group-addon bg-primary text-white">
+                  <i class="fa fa-lock"></i>
+                </span>
+                <input type="password" class="form-control" id="password" name="password" formControlName="password" placeholder="Password">
+              </div>
+              <div id="password-error"></div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-12">
+              <label for="roles">Select User Role</label>
+            </div>
+            <div class="col-md-12">
+              <select id="roles" name="roles" class="form-control form-control-md" formControlName="role">
+                <option value="Admin">Admin</option>
+                <option value="Data Miner">Data Miner</option>
+                <option value="Data Reporter">Data Reporter</option>
+                <option value="Field Agent">Field Agent</option>
+              </select>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="btn-toolbar float-right m-t-1">
+              <button *ngIf="!registerSwitch" type="submit" [disabled]="regForm.invalid" class="btn btn-inverse btn-md">Create Account</button>
+              <a *ngIf="registerSwitch" class="btn btn-grey btn-md">
+                <span class="spinner">
+                  <i class="fa fa-spinner fa-spin"></i>
+                  Creating Account...
+                </span>
+              </a>
+            </div>
+            <div class="btn-toolbar float-left m-t-1">
+              <a class="btn  btn-md" (click)="closeThis()">
+                <i class="fa fa-arrow-left margin-top-3 pull-left"></i> All Users
+              </a>
+            </div>
+          </div>
+        </form>
       </div>
     </section>
   </div>

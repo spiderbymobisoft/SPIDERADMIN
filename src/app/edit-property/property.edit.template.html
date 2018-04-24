@@ -1,0 +1,322 @@
+<div class="row">
+  <div class="col-lg-10 offset-lg-1 col-sm-12 offset-sm-0">
+    <section class="widget card-interface bg-white" widget>
+      <header>
+        <h1 class="page-title">
+          Edit
+          <span class="fw-semi-bold text-center">Property Record</span>
+        </h1>
+      </header>
+      <div class="widget-body">
+        <form class="form-horizontal form-label-left parsleyjs" method="post" data-parsley-priority-enabled="false" novalidate="novalidate"
+          (ngSubmit)="updateProperty()">
+          <fieldset>
+
+            <div class="row">
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Contact Person
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Contact Fullname" id="contact_person" maxlength="60" name="contact_peson" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.contact.contact_person">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Email
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Email" id="email" maxlength="100" name="email" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.contact.email">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Telephone
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                      <input type="tel" placeholder="Telephone" id="telephone" maxlength="100" name="telephone" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.contact.telephone">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Building Serial Number
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <div class="input-group">
+                      <input type="text" placeholder="Click to generate BSN" id="building_serial_number" maxlength="20" name="building_serial_number"
+                        class="form-control form-control-md" required="required" [(ngModel)]="payload.property.building_serial_number"
+                        readonly>
+                      <div class="input-group-append">
+                        <button (click)="generateBSN()" type="button" class="btn btn-primary">
+                          <i class="fa fa-magic"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Buildig Part Occupied
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.building_part_occupied" id="building_part_occupied" name="building_part_occupied">
+                      <option *ngFor="let data of formConfig.buildingPartOccupied" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Ownership
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.ownership_type" id="ownership" name="ownership">
+                      <option *ngFor="let data of formConfig.typeOfOwner" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  House Number
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Enter Street Name" id="street_name" maxlength="60" name="street_name" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.street_name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Street
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="text" placeholder="Street name" id="street" maxlength="100" name="street" class="form-control form-control-md"
+                      required="required" value="{{ payload.property.street_name + ', ' + payload.property.lga + ', ' + payload.property.state }}" readonly>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Accessible
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.accessible" id="accessible" name="accessible">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Site Conditions
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.site_conditions" id="site_conditions" name="site_conditions"
+                      multiple>
+                      <option *ngFor="let data of formConfig.siteCondition" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Water Supply
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.water_supply" id="water_supply" name="water_supply" multiple>
+                      <option *ngFor="let data of formConfig.waterSupply" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Refuse Disposal
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.refuse_disposal" id="refuse_disposal" name="refuse_disposal">
+                      <option *ngFor="let data of formConfig.refuseDisposal" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Building Type
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.building_type" id="building_type" name="building_type">
+                      <option *ngFor="let data of formConfig.buildingType" value="{{ data.text }}">{{ data.text }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Storey Building
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.storey_building" id="storey_building" name="story_building">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Storey Building Floors
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="number" placeholder="Number of floors" id="floors" maxlength="60" name="floors" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.storey_building_floors">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Gate House
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="number" placeholder="Number of Gate House" id="gate_house" maxlength="60" name="gate_house" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.gate_house">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Boys Quarter
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="number" placeholder="Number of Boys Quarter" id="boys_quarter" maxlength="60" name="boys_quarter" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.boys_quarter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Generator House
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="number" placeholder="Number of Generator House" id="gen_house" maxlength="60" name="gen_house" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.generator_house">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Number of Entities
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input type="number" placeholder="Number of Entities" id="entities" maxlength="60" name="entities" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.number_of_entity">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <legend>
+                  Has Signage
+                </legend>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.has_signage" id="has_signage" name="has_signage">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+              </div>
+
+            </div>
+
+          </fieldset>
+          <div class="form-actions bg-white">
+            <button *ngIf="!publishSwitch" type="submit" class="btn btn-success btn-rounded float-xs-right">Update Record</button>
+            <a *ngIf="publishSwitch" class="btn btn-grey" disabled>
+              <span class="spinner">
+                <i class="fa fa-spinner fa-spin"></i>
+                Publishing...
+              </span>
+            </a>
+            <a *ngIf="!publishSwitch" class="btn btn-default btn-rounded" (click)="cancelClick()">
+              <i class="fa fa-reply"></i>
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

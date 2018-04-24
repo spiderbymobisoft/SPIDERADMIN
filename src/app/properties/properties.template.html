@@ -13,7 +13,7 @@
       <div class="mt">
         <div class="width-200 float-xs-right">
           <div class="input-group input-group-sm input-group-transparent input-group-rounded">
-            <span class="input-group-addon">
+            <span class="input-group-addon bg-primary text-white">
               <i class="fa fa-search"></i>
             </span>
             <input class="form-control form-control-sm" id="table-search-input" [(ngModel)]="searchText" type="text" placeholder="Search Street Name">
@@ -31,13 +31,13 @@
               <th>
                 <mfDefaultSorter by="property.ownership_type">Ownership Type</mfDefaultSorter>
               </th>
-              <th>
+              <th class="hidden-md-down ">
                 <mfDefaultSorter by="property.contact.contact_person">Contact Person</mfDefaultSorter>
               </th>
-              <th>
+              <th class="hidden-md-down ">
                 <mfDefaultSorter by="property.number_of_entity">Entities</mfDefaultSorter>
               </th>
-              <th class="text-right">
+              <th class="hidden-md-down text-right">
                 Action
               </th>
             </tr>
@@ -54,7 +54,7 @@
               <td class="align-middle">
                 <span class="fw-semi-bold">{{ record.property.ownership_type }}</span>
               </td>
-              <td class="align-middle">
+              <td class="hidden-md-down align-middle">
                  <div *ngIf="record.contact">
                     <i class="fa fa-user"></i> &nbsp;
                     <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
@@ -69,14 +69,17 @@
                   No Contact Information
                 </div>
               </td>
-              <td class="align-middle">
+              <td class="hidden-md-down align-middle">
                 {{ record.property.number_of_entity }}
               </td>
-              <td class="text-right align-middle">
-                <button class="btn btn-secondary width-50 mb-xs" role="button" (click)="goToPropertyPage(record)">
-                  <i class="glyphicon glyphicon glyphicon-eye-open text-primary"></i>
+              <td class="hidden-md-down text-right align-middle">
+                <button class="btn btn-primary width-50 mb-xs" role="button" (click)="goToPropertyPage(record)">
+                  <i class="glyphicon glyphicon glyphicon-eye-open text-white"></i>
                 </button>
-                <button *ngIf="record.payment_status !== 1" class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record.property.property_id)">
+                <button class="btn btn-warning width-50 mb-xs" role="button" (click)="goToEditPropertyPage(record)">
+                    <i class="glyphicon glyphicon glyphicon-pencil text-white"></i>
+                  </button>
+                <button *ngIf="record.payment_status !== 1" class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record._id)">
                   <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
                 </button>
               </td>

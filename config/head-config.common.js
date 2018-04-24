@@ -38,8 +38,8 @@ module.exports = {
     { rel: 'manifest', href: '/assets/manifest.json' }
   ],
   meta: [
-    { name: 'msapplication-TileColor', content: '#0A9F62' },
+    { name: 'msapplication-TileColor', content: '#0871FA' },
     { name: 'msapplication-TileImage', content: '/assets/icon/favicon.png', '=content': true },
-    { name: 'theme-color', content: '#0A9F62' }
+    { name: 'theme-color', content: '#0871FA' }
   ]
 };

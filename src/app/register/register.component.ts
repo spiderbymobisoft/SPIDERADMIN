@@ -10,7 +10,6 @@ import { SharedServices } from 'app/services/shared/shared.services';
 declare let jQuery: any;
 declare let swal: any;
 
-//declare var swal : any;
 @Component({
   selector: 'register',
   styleUrls: ['./register.style.scss'],
@@ -23,12 +22,15 @@ declare let swal: any;
 export class Register {
   public footerText: string;
   public user: any = {
+    document_owner: '',
     firstname: '',
     lastname: '',
+    organisation: '',
     email: '',
     mobile: '',
     password: '',
-    role: ''
+    role: 'Data Miner',
+    user_type: 'Individual'
   }
 
   public instance: any;
@@ -43,21 +45,27 @@ export class Register {
   }
 
   registerUser() {
-    this.registerSwitch = true;
-    if (this.instance.isValid() && this.user.role) {
-      this.processRegistration();
-    } else {
-      this.registerSwitch = false;
-    }
+    if (this.instance.isValid()) {
+      if(this.user.user_type == 'Organisation' && !this.user.organisation) {
+        this.ss.swalAlert('Account Service','Please provide organisation name','error');
+      }
+      if(this.user.user_type == 'Organisation' && this.user.organisation) {
+        this.registerOrganisation();
+      }
+      if(this.user.user_type == 'Individual'){
+        this.registerIndividual();
+      }
+    } 
   }
 
-  processRegistration(){
+  registerIndividual(){
+    this.registerSwitch = true;
     this.retrieveService.verifyUser(this.user.email).subscribe(data => {
       if (!data.success) {
         this.createService.addUser(this.user).then((data) => {
           if (data) {
             this.ss.swalAlert('Account Service', 'A confirmation email has been sent to ' + this.user.email + '!', 'success');
-            this.router.navigate(['app/users']);
+            this.router.navigate(['/login']);
           } else {
             this.registerSwitch = false;
             this.ss.swalAlert('Account Service', 'Something went wrong! Please try again', 'error');
@@ -68,32 +76,39 @@ export class Register {
         });
       } else {
         this.registerSwitch = false;
-        this.ss.swalAlert('Account Service', 'The email address you provided is already in use. ' + data.success, 'info');
+        this.ss.swalAlert('Account Service', 'The email address you provided is already in use. ' + data.success, 'error');
       }
+    },err=>{
+      this.registerSwitch = false;
+      this.ss.swalAlert('Network Service', 'Unable to connect! Please connect to the internet and try again', 'error');
     });
   }
 
-  getUserRoles(): Select2OptionData[] {
-    let roles: any = [{
-      id: 'Admin',
-      text: 'Admin'
-    }, {
-      id: 'Field Agent',
-      text: 'Field Agent'
-    }, {
-      id: 'Data Miner',
-      text: 'Data Miner'
-    }, {
-      id: 'Data Reporter',
-      text: 'Data Reporter'
-    }];
-    return roles;
+  registerOrganisation(){
+    this.registerSwitch = true;
+    this.retrieveService.verifyOrganisation(this.user.email).subscribe(data => {
+      if (!data.success) {
+        this.createService.addOrganisation(this.user).then((data) => {
+          if (data) {
+            this.ss.swalAlert('Account Service', 'A confirmation email has been sent to ' + this.user.email + '!', 'success');
+            this.router.navigate(['/login']);
+          } else {
+            this.registerSwitch = false;
+            this.ss.swalAlert('Account Service 1', 'Something went wrong! Please try again', 'error');
+          }
+        }).catch(e => {
+          this.registerSwitch = false;
+          this.ss.swalAlert('Account Service 2', 'Something went wrong! Please try again', 'error');
+        });
+      } else {
+        this.registerSwitch = false;
+        this.ss.swalAlert('Account Service 3', 'The email address you provided is already in use. ' + data.success, 'info');
+      }
+    },err=>{
+      this.registerSwitch = false;
+      this.ss.swalAlert('Network Service', 'Unable to connect! Please connect to the internet and try again', 'error');
+    });
   }
-
-  userRoleChanged(e: any): void {
-    this.user.role = e.value;
-  }
-
  
   ngOnInit(): void {
     jQuery('.parsleyjs').parsley();

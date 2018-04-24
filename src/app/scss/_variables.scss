@@ -33,12 +33,12 @@ $gray-light:             lighten(#000, 60%) !default;   // #999
 $gray-lighter:           lighten(#000, 93.5%) !default; // #eee
 $gray-semi-light:        #777;
 $gray-semi-lighter:      #ddd;
-$blue:                   rgb(10, 159, 98);
+$blue:                   rgb(8, 113, 250);
 $offwhite:               #F5F7F9;
 $offblue:                #F6F6F7;
 
-$brand-primary:         rgb(10, 159, 98) !default; //#618fb0 !default;
-$brand-success:         #468718 !default;
+$brand-primary:         rgb(8, 113, 250) !default; //#618fb0 !default;
+$brand-success:         #37b452 !default;
 $brand-info:            #00acfc !default; //#61c4b8 !default; //#5DADE2 !default;
 $brand-warning:         #f0b518 !default;
 $brand-danger:          #BE0604 !default; // #e5603b !default;
@@ -66,7 +66,7 @@ $sidebar-color: #FFF !default;
 //$sidebar-item-border-color: #2d2d2d !default;
 $sidebar-item-border-color: #000 !default;
 //$sidebar-item-active-color: #F2BE35 !default;
-$sidebar-item-active-color: rgb(10, 159, 98)!default;
+$sidebar-item-active-color: rgb(8, 113, 250)!default;
 //$sidebar-item-hover-bg-color: #111 !default;
 $sidebar-item-hover-bg-color: #333333 !default;
 
@@ -98,7 +98,7 @@ $line-height-base:        1.5 !default;
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 $line-height-computed:    floor(($font-size-base * $line-height-base)) !default;
 
-$link-color: rgb(10, 159, 98)!default;
+$link-color: rgb(8, 113, 250)!default;
 
 // Layout
 // -------------------------
@@ -171,7 +171,7 @@ $border-radius-sm:       .2rem !default;
 
 //== Scaffolding
 //
-$body-bg: #FFF !default;
+$body-bg: rgb(230, 230, 230) !default;
 $body-bg-light: lighten($body-bg, 3%);
 
 // Typography
@@ -186,7 +186,7 @@ $headings-font-weight: 300 !default;
 
 $input-line-height:              1.5;
 
-$input-border-focus:             rgb(38, 153, 15) !default; //webkit focus color
+$input-border-focus:             rgb(8, 113, 250) !default; //webkit focus color
 $legend-color:                   lighten($text-color, 15%) !default;
 
 //== Tables

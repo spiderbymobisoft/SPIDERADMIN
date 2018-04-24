@@ -128,8 +128,11 @@
   <div class="col-lg-4 col-md-6 col-sm-12">
     <section class="widget card-interface animated pulse">
       <div class="widget-body">
-        <div>
-          <h5 class="fw-semi-bold">Property Details</h5>
+        <div class="clearfix">
+          <div class="pull-left">
+            <b>Building Serial Number</b>
+          </div>
+          <div class="pull-right">{{ propertyRecord.property.building_serial_number }}</div>
         </div>
         <hr>
         <div class="clearfix">
@@ -195,18 +198,18 @@
         <thead>
           <tr>
             <th>
-              <mfDefaultSorter by="entity.entity_name">Entity Name</mfDefaultSorter>
+              <mfDefaultSorter by="entity.entity_name">Name</mfDefaultSorter>
             </th>
-            <th>
+            <th class="hidden-md-down ">
               Contact Person
             </th>
-            <th>
-              Entity Group/Category
+            <th class="hidden-md-down ">
+              Group/Category
             </th>
-            <th>
+            <th class="hidden-md-down ">
               Photos
             </th>
-            <th class="text-right">
+            <th class="hidden-md-down text-right">
               Action
             </th>
           </tr>
@@ -216,7 +219,7 @@
             <td class="align-middle">
               {{ record.entity.entity_name }}
             </td>
-            <td class="align-middle">
+            <td class="hidden-md-down align-middle">
               <div *ngIf="record.contact">
                 <i class="fa fa-user"></i> &nbsp;
                 <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
@@ -231,17 +234,20 @@
                 No Contact Information
               </div>
             </td>
-            <td class="align-middle">
+            <td class="hidden-md-down align-middle">
               <div class="badge badge-pill badge-success"> {{ record.entity.entity_group }} </div>
               <br>
               <div class="badge badge-pill badge-warning"> {{ record.entity.entity_category }} </div>
             </td>
-            <td class="align-middle">
+            <td class="hidden-md-down align-middle">
               {{ record.property_photos.length }}
             </td>
-            <td class="text-right align-middle">
-              <button class="btn btn-secondary width-50 mb-xs" role="button" (click)="showEntity(record)">
-                <i class="glyphicon glyphicon glyphicon-eye-open text-primary"></i>
+            <td class="hidden-md-down text-right align-middle">
+              <button class="btn btn-primary width-50 mb-xs" role="button" (click)="showEntity(record)">
+                <i class="glyphicon glyphicon glyphicon-eye-open text-white"></i>
+              </button>
+              <button class="btn btn-warning width-50 mb-xs" role="button" (click)="editEntity(record)">
+                <i class="glyphicon glyphicon glyphicon-pencil text-white"></i>
               </button>
               <button class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record._id)">
                 <i class="glyphicon glyphicon glyphicon-trash text-white"></i>

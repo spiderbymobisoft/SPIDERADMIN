@@ -71,7 +71,7 @@ export class SharedServices {
               type: type,
               allowEscapeKey: false,
               allowOutsideClick: false,
-              confirmButtonColor: '#0A9F62',
+              confirmButtonColor: '#0871FA',
               confirmButtonClass: 'btn btn-md btn-primary'
             }
           );

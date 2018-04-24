@@ -20,21 +20,22 @@ export class Navbar implements OnInit {
   config: any;
   router: Router;
 
-  public user : any;
-  private access : string = sessionStorage.getItem('__access__');
-  public personal : any = {
-    firstname : '',
-    lastname : '',
+  public isAdmin: boolean = false;
+  public user: any;
+  private access: string = sessionStorage.getItem('__access__');
+  public personal: any = {
+    firstname: '',
+    lastname: '',
     avatar: 'assets/img/people/a5.jpg'
   }
 
-  public lightSwitch : boolean = false;
-  
+  public lightSwitch: boolean = false;
+
   constructor(es: EventService, private auth: AuthenticationService,
     el: ElementRef, config: AppConfig, router: Router, private ss: SharedServices) {
 
-    es._avatarEvent.subscribe(data=>{
-      this.personal.avatar= data;
+    es._avatarEvent.subscribe(data => {
+      this.personal.avatar = data;
     });
 
     this.$el = jQuery(el.nativeElement);
@@ -55,35 +56,58 @@ export class Navbar implements OnInit {
   }
 
   ngOnInit(): void {
-      this.lightSwitch = true;
-      this.user = this.ss.USER();
-       if(this.user.personal){
-          this.personal = {
-            firstname : this.user.personal.firstname,
-            lastname : this.user.personal.lastname,
-            avatar: this.user.personal.avatar
-          }
+    this.lightSwitch = true;
+    this.user = this.ss.USER();
+    if (this.user.security.user_type) {
+      if (this.user.security.user_type === 'Individual') {
+        this.isAdmin = false;
+        this.personal = {
+          firstname: this.user.personal.firstname,
+          lastname: this.user.personal.lastname,
+          avatar: this.user.personal.avatar
         }
+      }
 
-      this.$el.find('.input-group-addon + .form-control').on('blur focus', function(e): void {
-        jQuery(this).parents('.input-group')
-          [e.type === 'focus' ? 'addClass' : 'removeClass']('focus');
-      });
-    
+      if (this.user.security.user_type === 'Organisation') {
+        this.isAdmin = true;
+        this.personal = {
+          firstname: this.user.organisation.name,
+          avatar: this.user.avatar
+        }
+      }
+
+      if (this.user.security.user_type === 'Super') {
+        this.isAdmin = true;
+        this.personal = {
+          firstname: this.user.personal.firstname,
+          avatar: this.user.avatar
+        }
+      }
+
+    }
+
+
+
+    this.$el.find('.input-group-addon + .form-control').on('blur focus', function (e): void {
+      jQuery(this).parents('.input-group')
+      [e.type === 'focus' ? 'addClass' : 'removeClass']('focus');
+    });
+
   }
 
-  logOut(){
-    this.auth.logout().then((res)=>{
+  logOut() {
+    this.auth.logout().then((res) => {
       swal(
-        {title : 'Account Service',
-        text : 'Signing out...<br/>Do come back again!',
-        type : 'success',
-        allowOutsideClick : false,
-        allowEscapeKey : false,
-        confirmButtonColor: '#0A9F62',
-        confirmButtonClass: 'btn btn-md btn-primary'
-      }
-      ).then(()=>{
+        {
+          title: 'Account Service',
+          text: 'Signing out...<br/>Do come back again!',
+          type: 'success',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor: '#0871FA',
+          confirmButtonClass: 'btn btn-md btn-primary'
+        }
+      ).then(() => {
         this.router.navigate(['/login']);
       });
     });

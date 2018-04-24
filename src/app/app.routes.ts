@@ -14,6 +14,9 @@ export const ROUTES: Routes = [
     path: 'login', loadChildren: './login/login.module#LoginModule'
   },
   {
+    path: 'register', loadChildren: './register/register.module#RegisterModule'
+  },
+  {
     path: 'error', component: ErrorComponent
   },
   {

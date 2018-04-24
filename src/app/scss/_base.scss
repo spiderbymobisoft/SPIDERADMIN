@@ -6,12 +6,17 @@ tr {
   text-transform: uppercase !important;
 }
 
+legend {
+  font-weight: 500 !important;
+}
+
 .photo-square {
   border-radius: 10px;
 }
 .card-interface {
   background-color: #FFF !important;
   border: 1px solid rgb(211, 210, 210) !important;
+  border-radius: 10px !important;
 }
 
 .rounded-square-nav {
@@ -73,6 +78,37 @@ tr {
   font-weight: 400; 
 }
 
+
+.badge-super {
+  border: 1px solid #b200e9;
+  color: #FFF;
+  background-color: #b200e9;
+  font-weight: 500;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.badge-individual {
+  border: 1px solid #0871FA;
+  color: #FFF;
+  background-color: #0871FA;
+  font-weight: 500;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.badge-organisation {
+  border: 1px solid #f87000;
+  color: #FFF;
+  background-color: #f87000;
+  font-weight: 500;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.btn-select{
+  border: 1px solid $brand-primary;
+}
 
 .badge-outline-primary {
   border: 1px solid $brand-primary;
