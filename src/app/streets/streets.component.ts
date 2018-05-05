@@ -4,6 +4,7 @@ import { Intelligence } from '../services/library/intelligence';
 import { DeleteService } from '../services/http/crud/delete.services';
 import { RetrieveService } from '../services/http/crud/retrieve.services';
 import { SharedServices } from '../services/shared/shared.services';
+import { CsvService } from 'angular2-json2csv';
 
 declare var jQuery: any;
 declare var swal: any;
@@ -22,6 +23,7 @@ export class Streets implements OnInit {
   private intelligence: any = new Intelligence();
 
   constructor(
+    private csvService: CsvService,
     private router: Router, private ds: DeleteService,
     public rs: RetrieveService, private ss: SharedServices
   ) {
@@ -31,6 +33,43 @@ export class Streets implements OnInit {
   ngOnInit(): void {
     this.user = this.ss.USER();
     this.recordsInit();
+  }
+
+  downloadAsCSV() {
+    let downloadID = new Date();
+    let payload: any;
+    let downloadable: any[] = [];
+    this.streetRecords.forEach(data => {
+      payload = {
+        id: data._id,
+        gis_id: data.street.gis_id,
+        street_id: data.street.street_id,
+        street_name: data.street.street_name,
+        area: data.street.area,
+        location: data.street.location,
+        lga: data.street.lga,
+        state: data.street.state,
+        country: data.street.country,
+        street_furniture: data.street.street_furniture,
+        road_type: data.street.road_type,
+        road_condition: data.street.road_condition,
+        road_carriage: data.street.road_carriage,
+        road_feature: data.street.road_feature,
+        refuse_disposal: data.street.refuse_disposal,
+        drainage: data.street.drainage,
+        electricity: data.street.electricity,
+        location_type: data.location.type,
+        latitude: data.location.coordinates[0],
+        longitude: data.location.coordinates[1],
+        w3w: data.location.whatthreewords,
+        enumerator_firstname: data.enumerator.firstname,
+        enumerator_lastname: data.enumerator.lastname,
+        enumerator_email: data.enumerator.email,
+        created_on: data.created
+      };
+      downloadable.push(payload);
+    });
+    this.csvService.download(downloadable, `SPiDER_STREET_DATA_${downloadID}`);
   }
 
   recordsInit() {

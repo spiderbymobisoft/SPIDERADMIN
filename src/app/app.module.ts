@@ -34,6 +34,8 @@ import { SharedServices } from 'app/services/shared/shared.services';
 import { CanActivateViaRoleGuard } from './services/http/authentication/role.guard';
 import { FormConfig } from './services/shared/form.config';
 
+import {CsvService} from 'angular2-json2csv';
+
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
@@ -52,7 +54,8 @@ const APP_PROVIDERS = [
   NigeriaStatesService,
   VerificationService,
   SharedServices,
-  FormConfig
+  FormConfig,
+  CsvService
 ];
 
 type StoreType = {
