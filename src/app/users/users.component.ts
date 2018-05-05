@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { NgForm, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Select2OptionData } from 'ng2-select2';
+
 import { Intelligence } from '../services/library/intelligence';
 import { RetrieveService } from '../services/http/crud/retrieve.services';
 import { SharedServices } from 'app/services/shared/shared.services';

@@ -259,6 +259,7 @@ export class FormConfig {
     ];
 
 
+ 
     public entityGroup = [
         {
             title: 'Agricultural Product',
@@ -1277,107 +1278,128 @@ export class FormConfig {
             title: 'Residential',
             sub_titles: [
                 {
-                    "title": "Ambulance Rentals"
-                },
-                {
-                    "title": "Aquarium Centres"
-                },
-                {
-                    "title": "Auctioneers"
-                },
-                {
-                    "title": "Building Contractors"
-                },
-                {
-                    "title": "Car Hire"
-                },
-                {
-                    "title": "Consultancy Services"
-                },
-                {
-                    "title": "Construction Companies"
-                },
-                {
-                    "title": "Cooling Van Rentals"
-                },
-                {
-                    "title": "Education Consult Services"
-                },
-                {
-                    "title": "Entertainers and Marriage Engagement (Mc)"
-                },
-                {
-                    "title": "Environmental Services"
-                },
-                {
-                    "title": "Funeral Service/Undertakers"
-                },
-                {
-                    "title": "Geospatial Services"
-                },
-                {
-                    "title": "Graphic Printing Consultants"
-                },
-                {
-                    "title": "Horticultural / Environmental Consults"
-                },
-                {
-                    "title": "Human Capital Development Company"
-                },
-                {
-                    "title": "Industrial Machine Sales and Services"
-                },
-                {
-                    "title": "Industrial Weighing Scale and Instruments Repairs"
-                },
-                {
-                    "title": "Information Technology Training and Service Centre"
-                },
-                {
-                    "title": "Knitting Works and Services"
-                },
-                {
-                    "title": "Land Scraping Services"
-                },
-                {
-                    "title": "Marketing Companies"
-                },
-                {
-                    "title": "Mortgage and Housing Support Services"
-                },
-                {
-                    "title": "Organic Research and Development Centres"
-                },
-                {
-                    "title": "Packaging Companies"
-                },
-                {
-                    "title": "Pest Control and Fumigation"
-                },
-                {
-                    "title": "Pilgrimage Operation Services Hajj Specialist"
-                },
-                {
-                    "title": "Property Developers"
-                },
-                {
-                    "title": "Refuse Contractors"
-                },
-                {
-                    "title": "Security Vehicle Services"
-                },
-                {
-                    "title": "Travel Agency"
-                },
-                {
-                    "title": "Town Planners Consultants"
-                },
-                {
-                    "title": "Water Analyst and Borehole Drilling Survey"
-                },
-                {
-                    "title": "Weeding Consultants"
-                }
+                    "title": "1 Bedroom Apartment"
+                 },
+                 {
+                    "title": "2 Bedroom Apartment"
+                 },
+                 {
+                    "title": "3 Bedroom Apartment"
+                 },
+                 {
+                    "title": "4 Bedroom Apartment"
+                 },
+                 {
+                    "title": "5 Bedroom Apartment"
+                 },
+                 {
+                    "title": "6 Bedroom Apartment"
+                 },
+                 {
+                    "title": "7 Bedroom Apartment"
+                 },
+                 {
+                    "title": "1 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "2 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "3 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "4 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "5 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "6 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "7 Bedroom Block of Flats"
+                 },
+                 {
+                    "title": "1 storey Building 2 flats"
+                 },
+                 {
+                    "title": "1 storey Building 4 flats"
+                 },
+                 {
+                    "title": "1 storey Building 6 flats"
+                 },
+                 {
+                    "title": "1 storey Building 8 flats"
+                 },
+                 {
+                    "title": "Mini Estate"
+                 },
+                 {
+                    "title": "Mixed (Church + Hospital)"
+                 },
+                 {
+                    "title": "Mixed (Church + School)"
+                 },
+                 {
+                    "title": "Mixed (Church + Shop)"
+                 },
+                 {
+                    "title": "Mixed (Church + Warehouse)"
+                 },
+                 {
+                    "title": "Mixed (Hospital + Shop)"
+                 },
+                 {
+                    "title": "Mixed (Mosque + School)"
+                 },
+                 {
+                    "title": "Mixed (Mosque + Shop)"
+                 },
+                 {
+                    "title": "Mixed (Mud + Shop)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Church + Hospital)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Church + School)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Church)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Hospital + Shop)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Hospital)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Mosque + Hospital)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Mosque + School)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Mosque)"
+                 },
+                 {
+                    "title": "Mixed (Residential + School)"
+                 },
+                 {
+                    "title": "Mixed (Residential + Shop)"
+                 },
+                 {
+                    "title": "Mixed (Residential+ Offices)"
+                 },
+                 {
+                    "title": "OFFICE Use"
+                 },
+                 {
+                    "title": "Residence only"
+                 },
+                 {
+                    "title": "Staff Quarters"
+                 }
             ]
         },
         {

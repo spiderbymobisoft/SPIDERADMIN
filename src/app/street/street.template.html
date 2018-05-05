@@ -68,7 +68,7 @@
         <div>
           <h5 class="fw-semi-bold">Road Feature</h5>
         </div>
-  
+
         <div>
           <ul>
             <li *ngFor="let rf of streetRecord.street.road_feature">
@@ -132,6 +132,37 @@
     </section>
   </div>
 </div>
+<div *ngIf="streetRecord.street_photos.length > 0" class="row">
+  <div *ngFor="let photo of streetRecord.street_photos" class="col-lg-4 col-md-6 col-sm-12">
+    <section class="widget card-interface animated pulse">
+      <div class="widget-body">
+        <img src="{{photo.url}}" class="photo-square" width="100%" alt="SPiDER" />
+      </div>
+      <div class="widget-body">
+        <div>
+          <h4>{{ photo.title }}</h4>
+        </div>
+        <div>
+          <span>
+            <i class="fa fa-camera"></i> {{ photo.snapshot_position }}
+          </span>
+        </div>
+        <div>
+          <p>
+            <i class="fa fa-map-marker"></i>
+            <a href="http://www.google.com/maps/place/{{ photo.location.coordinates[1] }}, {{ photo.location.coordinates[0] }}" target="_blank">
+              <b>LNG:</b> {{ photo.location.coordinates[0] }}
+              <b>LAT:</b> {{ photo.location.coordinates[1] }}</a>
+          </p>
+          <p *ngIf="photo.location.whatthreewords">
+            <i class="fa fa-map-marker"></i>
+            <a href="https://map.what3words.com/{{ photo.location.whatthreewords }}" target="_blank">{{ photo.location.whatthreewords }}</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
 <section class="widget card-interface" widget>
   <header>
     <h3 class="page-title">Properties on -
@@ -184,7 +215,7 @@
             </td>
             <td class="hidden-md-down align-middle">
               <div *ngIf="record.contact">
-                  <i class="fa fa-user"></i> &nbsp;
+                <i class="fa fa-user"></i> &nbsp;
                 <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
                 <br>
                 <i class="fa fa-envelope"></i>&nbsp;
@@ -205,8 +236,8 @@
                 <i class="glyphicon glyphicon glyphicon-eye-open text-white"></i>
               </button>
               <button class="btn btn-warning width-50 mb-xs" role="button" (click)="goToEditPropertyPage(record)">
-                  <i class="glyphicon glyphicon glyphicon-pencil text-white"></i>
-                </button>
+                <i class="glyphicon glyphicon glyphicon-pencil text-white"></i>
+              </button>
               <button *ngIf="record.payment_status !== 1" class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record.property.property_id)">
                 <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
               </button>

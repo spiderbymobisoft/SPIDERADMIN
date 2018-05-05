@@ -17,7 +17,6 @@ import { AppConfig } from '../app.config';
 
 declare let jQuery: any;
 declare let Hammer: any;
-declare let Raphael: any;
 
 @Component({
   selector: 'layout',
@@ -45,7 +44,7 @@ export class Layout {
               router: Router,
               private renderer: Renderer,
               private ngZone: NgZone) {
-    Raphael.prototype.safari = function(): any { return; };
+                
     this.el = el;
     this.config = config.getConfig();
     this.configFn = config;

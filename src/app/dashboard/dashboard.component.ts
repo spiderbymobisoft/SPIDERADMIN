@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Intelligence } from '../services/library/intelligence';
 import { RetrieveService } from '../services/http/crud/retrieve.services';
 import { SharedServices } from 'app/services/shared/shared.services';
+import { AgmMap } from '@agm/core';
 
 declare var swal: any;
 
@@ -18,6 +19,9 @@ export class Dashboard implements OnInit {
   public user: any;
   public menuItems: any[] = [];
   public intelligence = new Intelligence();
+
+  lat: number = 51.678418;
+  lng: number = 7.809007;
 
   constructor(config: AppConfig, private router: Router, private rs: RetrieveService, private ss: SharedServices) {
 

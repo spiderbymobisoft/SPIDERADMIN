@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { Register } from './register.component';
 import 'parsleyjs';
-import { Select2Module } from 'ng2-select2';
 
 export const routes = [
   { path: '', component: Register, pathMatch: 'full' }
@@ -18,7 +17,6 @@ export const routes = [
   imports: [
     CommonModule,
     FormsModule,
-    Select2Module,
     RouterModule.forChild(routes),
   ]
 })
