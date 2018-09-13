@@ -12,17 +12,26 @@ import { APIConfig } from '../../apiconfig/api.config';
 @Injectable()
 export class RetrieveService {
 
-  private appConfig: any;
   private authorization: string;
   private url: string;
-  private _url: string;
+  private remote: string;
   private limit: number = 500;
   constructor(private http: Http, private config: APIConfig) {
-    this.appConfig = config.getConfig();
-    this.url = this.appConfig.apiURL;
-    this._url = this.appConfig.msgURL;
-    this.authorization = this.appConfig.authorization;
+    config.getSavedSettings().then(settings => {
+      settings['cloud'] ? this.url = config.apiConfig.remoteURL : this.url = config.apiConfig.apiURL;
+      this.remote = config.apiConfig.remoteURL;
+      this.authorization = config.apiConfig.authorization;
+    });
 
+  }
+
+  getImage(imageUrl: string) {
+    let headers = new Headers({ 'Content-Type': 'blob' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(imageUrl, options)
+      .map((res) => {
+        return new Blob([res['body']], {type: res.headers.get('Content-Type')});
+      })
   }
 
   getCurrentAppVersion(): Observable<AppVersion> {
@@ -30,7 +39,7 @@ export class RetrieveService {
     headers.append('Authorization', this.authorization);
     let app: string = "SPiDER";
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(this.url + 'current/version/' + app, options)
+    return this.http.get(this.remote + 'current/version/' + app, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -39,7 +48,7 @@ export class RetrieveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}verify/${email}`, options)
+    return this.http.get(`${this.remote}verify/${email}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -48,7 +57,7 @@ export class RetrieveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}verify/organisation/${email}`, options)
+    return this.http.get(`${this.remote}verify/organisation/${email}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -57,7 +66,7 @@ export class RetrieveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}users`, options)
+    return this.http.get(`${this.remote}users`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -66,7 +75,7 @@ export class RetrieveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}organisation/users/${owner}`, options)
+    return this.http.get(`${this.remote}organisation/users/${owner}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -81,22 +90,22 @@ export class RetrieveService {
       .catch(this.handleError);
   }
 
-  getAllPropertyRecords(): Observable<any> {
+  getAllPropertyRecords(skip): Observable<any> {
     // /let body = JSON.stringify(payload); 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}all/properties`, options)
+    return this.http.get(`${this.url}all/properties/${skip}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getOrganisationPropertyRecords(owner): Observable<any> {
+  getOrganisationPropertyRecords(owner, skip): Observable<any> {
     // /let body = JSON.stringify(payload); 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}organisation/properties/${owner}`, options)
+    return this.http.get(`${this.url}organisation/properties/${owner}/${skip}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -122,22 +131,22 @@ export class RetrieveService {
   }
 
 
-  getAllStreetRecords(): Observable<any> {
+  getAllStreetRecords(skip): Observable<any> {
     // /let body = JSON.stringify(payload); 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}all/streets`, options)
+    return this.http.get(`${this.url}all/streets/${skip}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getOrganisationStreetRecords(owner): Observable<any> {
+  getOrganisationStreetRecords(owner, skip): Observable<any> {
     // /let body = JSON.stringify(payload); 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.authorization);
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.url}organisation/streets/${owner}`, options)
+    return this.http.get(`${this.url}organisation/streets/${owner}/${skip}`, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -191,11 +200,41 @@ export class RetrieveService {
     .catch(this.handleError);
   }
 
+
+  getPhotos(target, targetId): Observable<any> { 
+    let endPoint: string = '';
+    if(target == 'street'){
+      endPoint = this.url + 'street/photos/' + targetId;
+    }
+    if(target == 'property'){
+      endPoint = this.url + 'property/photos/' + targetId;
+    }
+    if(target == 'entity'){
+      endPoint = this.url + 'entity/photos/' + targetId;
+    }
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization' , this.authorization);
+    let options = new RequestOptions({ headers : headers });
+    return this.http.get(endPoint, options)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
   getFAQs(): Observable<any> { 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization' , this.authorization);
     let options = new RequestOptions({ headers : headers });
-    return this.http.get(this.url+'support/faqs', options)
+    return this.http.get(this.remote+'support/faqs', options)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+
+  getBSN(skip: number): Observable<any> { 
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization' , this.authorization);
+    let options = new RequestOptions({ headers : headers });
+    return this.http.get(this.remote+'bsn/'+skip, options)
     .map(this.extractData)
     .catch(this.handleError);
   }

@@ -37,10 +37,10 @@
         <div>
           <p>
             <i class="fa fa-map-marker"></i>
-            <a href="http://www.google.com/maps/place/{{ propertyRecord.location.coordinates[1] }}, {{ propertyRecord.location.coordinates[0] }}"
+            <a href="http://www.google.com/maps/place/{{ propertyRecord.location.latitude }}, {{ propertyRecord.location.longitude }}"
               target="_blank">
-              <b>LNG:</b> {{ propertyRecord.location.coordinates[0] }}
-              <b>LAT:</b> {{ propertyRecord.location.coordinates[1] }}</a>
+              <b>LNG:</b> {{ propertyRecord.location.coordinates.longitude }}
+              <b>LAT:</b> {{ propertyRecord.location.coordinates.latitude }}</a>
           </p>
           <p *ngIf="propertyRecord.location.whatthreewords">
             <i class="fa fa-map-marker"></i>
@@ -86,7 +86,7 @@
         </div>
         <hr>
         <div>
-          <h5 class="fw-semi-bold">Building Type</h5>
+          <h5 class="fw-semi-bold">Property Type</h5>
         </div>
         <div>
           <ul>
@@ -151,23 +151,16 @@
         <hr>
         <div class="clearfix">
           <div class="pull-left">
-            <b>Gate House</b>
+            <b>Gate House ID</b>
           </div>
-          <div class="pull-right">{{ propertyRecord.property.gate_house}}</div>
+          <div class="pull-right">{{ propertyRecord.property.gate_house_id ? propertyRecord.property.gate_house_id : 'N/A'}}</div>
         </div>
         <hr>
         <div class="clearfix">
           <div class="pull-left">
-            <b>Generator House</b>
+            <b>Generator House ID</b>
           </div>
-          <div class="pull-right">{{ propertyRecord.property.generator_house }}</div>
-        </div>
-        <hr>
-        <div class="clearfix">
-          <div class="pull-left">
-            <b>Boys Quarter</b>
-          </div>
-          <div class="pull-right">{{ propertyRecord.property.boys_quarter }}</div>
+          <div class="pull-right">{{ propertyRecord.property.generator_house_id ? propertyRecord.property.generator_house_id : 'N/A' }}</div>
         </div>
         <hr>
         <div class="clearfix">
@@ -188,24 +181,9 @@
       </div>
       <div class="widget-body">
         <div>
-          <h4>{{ photo.title }}</h4>
-        </div>
-        <div>
           <span>
             <i class="fa fa-camera"></i> {{ photo.snapshot_position }}
           </span>
-        </div>
-        <div>
-          <p>
-            <i class="fa fa-map-marker"></i>
-            <a href="http://www.google.com/maps/place/{{ photo.location.coordinates[1] }}, {{ photo.location.coordinates[0] }}" target="_blank">
-              <b>LNG:</b> {{ photo.location.coordinates[0] }}
-              <b>LAT:</b> {{ photo.location.coordinates[1] }}</a>
-          </p>
-          <p *ngIf="photo.location.whatthreewords">
-            <i class="fa fa-map-marker"></i>
-            <a href="https://map.what3words.com/{{ photo.location.whatthreewords }}" target="_blank">{{ photo.location.whatthreewords }}</a>
-          </p>
         </div>
       </div>
     </section>
@@ -213,7 +191,7 @@
 </div>
 <section class="widget card-interface" widget>
   <header>
-      <a class="btn bg-primary btn-md text-white" (click)="downloadAsCSV()">Download as CSV</a>
+      <a class="btn bg-primary btn-md text-white" (click)="downloadAsCSV()">Download {{ selectedRecords.length > 0 ? ' SELECTED ' : ' ALL ' }} DATA as CSV</a>
   </header>
   <div class="widget-body">
     <div class="mt">
@@ -228,6 +206,9 @@
       <table class="table table-striped table-hover" [mfData]="entityRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
         <thead>
           <tr>
+            <th class="align-middle text-center">
+              <input class="form-check-input" id="toggle-all" type="checkbox" [checked]="toogleSelectAll" (click)="selectAll()">
+            </th>
             <th>
               <mfDefaultSorter by="entity.entity_name">Name</mfDefaultSorter>
             </th>
@@ -247,6 +228,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let record of mf.data | SearchPipe : searchText">
+            <td class="align-middle">
+              <input class="form-check-input" class="toggle-one" type="checkbox" id="checkbox{{record._id}}" [checked]="isSelected(record._id)"
+                (click)="selectRecord(record._id)">
+            </td>
             <td class="align-middle">
               {{ record.entity.entity_name }}
             </td>
@@ -268,10 +253,10 @@
             <td class="hidden-md-down align-middle">
               <div class="badge badge-pill badge-success"> {{ record.entity.entity_group }} </div>
               <br>
-              <div class="badge badge-pill badge-warning"> {{ record.entity.entity_category }} </div>
+              <div class="badge badge-pill badge-primary"> {{ record.entity.entity_categories }} </div>
             </td>
             <td class="hidden-md-down align-middle">
-              {{ record.property_photos.length }}
+              {{ record.property_photos.length }} <a *ngIf="record.property_photos.length > 0" (click)="downloadPhotos(record.property_photos)"><i class="fa fa-download"></i></a>
             </td>
             <td class="hidden-md-down text-right align-middle">
               <button class="btn btn-primary width-50 mb-xs" role="button" (click)="showEntity(record)">

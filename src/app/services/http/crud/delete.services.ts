@@ -11,16 +11,16 @@ import { APIConfig } from '../../apiconfig/api.config';
 @Injectable()
 export class DeleteService{
 
-    private appConfig : any;
     private authorization : string;
     private url : string;
     headers: Headers;
     options: RequestOptions;
    
     constructor(public http: Http, public config : APIConfig) {
-        this.appConfig = config.getConfig();
-        this.url = this.appConfig.apiURL;
-        this.authorization = this.appConfig.authorization;
+        config.getSavedSettings().then(settings => {
+            settings['cloud'] ? this.url = config.apiConfig.remoteURL : this.url = config.apiConfig.apiURL;
+            this.authorization = config.apiConfig.authorization;
+          });
         this.headers = new Headers({ 'Content-Type': 'application/json', 
                                     'Accept': 'q=0.8;application/json;q=0.9'
                                 });
@@ -51,6 +51,13 @@ export class DeleteService{
             .map(this.extractData)
             .catch(this.handleError);
     } 
+
+    deleteBSN(bsnId): Observable<any> {
+        return this.http
+        .delete(this.url+'bsn/'+bsnId, this.options)
+        .map(this.extractData)
+        .catch(this.handleError);
+    }
     
     private extractData(res: Response) {
         let body = res.json();

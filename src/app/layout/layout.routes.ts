@@ -11,6 +11,8 @@ const routes: Routes = [
     { path: 'user', loadChildren: '../user/user.module#UserModule', canActivate: [CanActivateViaAuthGuard] },
     { path: 'users', loadChildren: '../users/users.module#UsersModule', canActivate: [CanActivateViaAuthGuard, CanActivateViaRoleGuard] },
     { path: 'register', loadChildren: '../register/register.module#RegisterModule', canActivate: [CanActivateViaAuthGuard] },
+    
+    { path: 'devices', loadChildren: '../devices/devices.module#DevicesModule', canActivate: [CanActivateViaAuthGuard] },
 
     { path: 'streets', loadChildren: '../streets/streets.module#StreetsModule', canActivate: [CanActivateViaAuthGuard] },
     { path: 'street', loadChildren: '../street/street.module#StreetModule', canActivate: [CanActivateViaAuthGuard] },
@@ -22,8 +24,12 @@ const routes: Routes = [
 
     { path: 'entity', loadChildren: '../entity/entity.module#EntityModule', canActivate: [CanActivateViaAuthGuard] },
     { path: 'entity/edit', loadChildren: '../edit-entity/entity.edit.module#EntityEditModule', canActivate: [CanActivateViaAuthGuard] },
+   
+    { path: 'bsn/manager', loadChildren: '../bsn-manager/bsn-manager.module#BSNManagerModule', canActivate: [CanActivateViaAuthGuard] },
 
-    { path: 'support', loadChildren: '../support/support.module#SupportModule', canActivate: [CanActivateViaAuthGuard] }
+    { path: 'support', loadChildren: '../support/support.module#SupportModule', canActivate: [CanActivateViaAuthGuard] },
+    { path: 'settings', loadChildren: '../settings/settings.module#SettingsModule', canActivate: [CanActivateViaAuthGuard] },
+    { path: 'new/notification', loadChildren: '../new-notification/new-notification.module#NewNotificationModule', canActivate: [CanActivateViaAuthGuard] }
   ]}
 ];
 

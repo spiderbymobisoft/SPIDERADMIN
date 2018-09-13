@@ -45,6 +45,11 @@
             <a class="dropdown-item" [routerLink]=" ['/app', 'users'] ">
               <i class="fa fa-users"></i> &nbsp; Users Manager</a>
           </li>
+          <li class="dropdown-divider"></li>
+          <li *ngIf="isAdmin">
+              <a class="dropdown-item" [routerLink]=" ['/app', 'devices'] ">
+                <i class="fa fa-mobile"></i> &nbsp; Device Manager</a>
+            </li>
           <li  *ngIf="isAdmin" class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item" [routerLink]=" ['/app', 'streets'] ">
@@ -54,6 +59,21 @@
           <li>
             <a class="dropdown-item" [routerLink]=" ['/app', 'properties'] ">
               <i class="fa fa-building"></i> &nbsp; Property Records</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'settings'] ">
+              <i class="fa fa-cog"></i> &nbsp; Console Settings</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'bsn', 'manager'] ">
+              <i class="fa fa-building"></i> &nbsp; BSN Manager</a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" [routerLink]=" ['/app', 'new', 'notification'] ">
+              <i class="fa fa-envelope"></i> &nbsp; Messaging</a>
           </li>
           <li class="dropdown-divider"></li>
           <li>

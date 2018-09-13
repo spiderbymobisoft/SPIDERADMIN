@@ -13,10 +13,10 @@
         <div>
           <p>
             <i class="fa fa-map-marker"></i>
-            <a href="http://www.google.com/maps/place/{{ entityRecord.location.coordinates[1] }}, {{ entityRecord.location.coordinates[0] }}"
+            <a href="http://www.google.com/maps/place/{{ entityRecord.location.coordinates.latitude }}, {{ entityRecord.location.coordinates.longitude }}"
               target="_blank">
-              <b>LNG:</b> {{ entityRecord.location.coordinates[0] }}
-              <b>LAT:</b> {{ entityRecord.location.coordinates[1] }}</a>
+              <b>LNG:</b> {{ entityRecord.location.coordinates.longitude }}
+              <b>LAT:</b> {{ entityRecord.location.coordinates.latitude }}</a>
           </p>
           <p *ngIf="entityRecord.location.whatthreewords">
             <i class="fa fa-map-marker"></i>
@@ -67,7 +67,7 @@
           <div class="pull-left">
             <b>Entity Group/Category</b>
           </div>
-          <div class="pull-right">{{ entityRecord.entity.entity_group}}/{{ entityRecord.entity.entity_category }}</div>
+          <div class="pull-right">{{ entityRecord.entity.entity_group}}/{{ entityRecord.entity.entity_categories }}</div>
         </div>
 
         <hr>
@@ -147,23 +147,9 @@
             <img src="{{ photo.url }}" class="photo-square" alt="" width="100%">
           </div>
           <div *ngIf="photo.snapshot_position" class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black">
-            <h4 class="mb-xs mt-xs">{{ photo.title }}</h4>
             <p class="description">
               <i class="fa fa-camera big-text"></i> {{ photo.snapshot_position }}
             </p>
-          </div>
-          <div class="widget-middle-overflow windget-padding-md clearfix bg-custom text-black">
-            <div *ngIf="photo.location.whatthreewords" class="pull-left">
-              <a class="btn btn-info" href="https://map.what3words.com/{{ entityRecord.location.whatthreewords }}" target="_blank">
-                <i class="fa fa-map-marker big-text"></i>
-              </a>
-            </div>
-            <div class="pull-right">
-              <a class="btn btn-primary" href="http://www.google.com/maps/place/{{ photo.location.coordinates[1] }}, {{ photo.location.coordinates[0] }}"
-                target="_blank">
-                <i class="fa fa-map-marker big-text"></i>
-              </a>
-            </div>
           </div>
         </div>
 

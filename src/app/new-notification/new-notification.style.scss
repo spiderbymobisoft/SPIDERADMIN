@@ -1,0 +1,128 @@
+@import "../scss/variables";
+@import "../../../node_modules/bootstrap/scss/_variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+
+/**
+ * Custom
+ */
+
+ .large-icon {
+   font-size: 60px;
+ }
+
+ .medium-icon {
+  font-size: 20px;
+}
+
+/***********************************/
+/**          Post Links           **/
+/***********************************/
+
+.post-links{
+  margin-bottom: 0;
+  font-size: $font-size-sm;
+  padding-left: 0;
+  @include clearfix();
+  > li{
+    float: left;
+    list-style: none;
+
+    + li{
+      &:before{
+        color: #999;
+        content: "\25cf";
+        padding: 0 8px;
+      }
+    }
+    > a{
+      text-decoration: none;
+      color: $text-muted;
+      &:hover{
+        color: $text-muted;
+      }
+    }
+  }
+
+  &.no-separator > li + li{
+    margin-left: 12px;
+    &:before{
+      content: normal;
+    }
+  }
+}
+
+.event{
+  .activities &{
+    margin-top: $line-height-computed;
+    width: 100%;
+  }
+}
+
+.event{
+  background: $white;
+  border-radius: $border-radius;
+  padding: 20px 20px 0;
+  position: relative;
+
+  .post-comments{
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  > footer{
+    margin: 20px -20px 0;
+    padding: 10px 20px;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    background-color: #f3f3f3;
+
+    @include clearfix();
+
+    .thumb{
+      margin-left: 10px;
+    }
+  }
+
+
+}
+
+.event-heading{
+  margin: 0 0 2px;
+  font-weight: $font-weight-semi-bold;
+  > a {
+    text-decoration: none;
+    color: #7ca9dd;
+  }
+  > small{
+    font-weight: $font-weight-semi-bold;
+    > a{
+      text-decoration: none;
+      color: $text-muted;
+    }
+  }
+}
+
+
+
+/***********************************/
+/**            PARSLEY            **/
+/***********************************/
+
+
+input.parsley-error{
+  border-color: $brand-danger;
+  @include box-shadow(inset 0 1px 1px rgba($brand-danger,.075));
+}
+
+.parsley-errors-list{
+  font-size: $font-size-smaller;
+  padding-left: 0;
+  margin-bottom: 5px;
+
+  li{
+    list-style: none;
+    color: $brand-danger;
+  }
+}
+

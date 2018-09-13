@@ -5,6 +5,9 @@ export class FormConfig {
 
     public siteCondition = [
         {
+            id: 0, text: 'Completed'
+        },
+        {
             id: 1, text: 'Abadoned'
         }, {
             id: 2, text: 'Demolished'
@@ -19,48 +22,23 @@ export class FormConfig {
         }
     ];
 
-    public buildingPartOccupied = [
-        {
-            id: 1, text: 'Whole Building'
-        }, {
-            id: 2, text: 'Part of Building'
-        }, {
-            id: 3, text: 'Not Applicable'
-        }
-    ];
-
-
     public buildingType = [
-        {
-            id: 1, text: 'Block of Flats'
-        }, {
-            id: 2, text: 'Block of Shops'
-        }, {
-            id: 3, text: 'Bungalow'
-        }, {
-            id: 4, text: 'Duplex'
-        }, {
-            id: 5, text: 'Mud House'
-        }, {
-            id: 6, text: 'Museum'
-        }, {
-            id: 7, text: 'Office Blocks'
-        }, {
-            id: 8, text: 'Open Stalls'
-        }, {
-            id: 9, text: 'Place of Worship'
-        }, {
-            id: 10, text: 'Rooms/Face to Face'
-        }, {
-            id: 11, text: 'Shopping Complex'
-        }, {
-            id: 12, text: 'Terrace Flats'
-        }, {
-            id: 13, text: 'Twin Duplex'
-        }, {
-            id: 14, text: 'Warehouse'
-        }, {
-            id: 15, text: 'Undeveloped Land'
+      {
+            id: 11, text: 'Agricultural'
+        },{
+            id: 17, text: 'Civic'
+        },{
+            id: 18, text: 'Residential'
+        },{
+            id: 19, text: 'Commercial'
+        },{
+            id: 20, text: 'Government'
+        },{
+            id: 21, text: 'Military/Security'
+        },{
+            id: 22, text: 'Religious'
+        },{
+            id: 24, text: 'Undesignated'
         }
     ];
 
@@ -83,13 +61,16 @@ export class FormConfig {
 
     public refuseDisposal = [
         {
-            id: 1, text: 'PPP'
+            id: 1, text: 'Government'
+        },
+        {
+            id: 2, text: 'PPP'
         }, {
-            id: 2, text: 'Unauthorized Dump'
+            id: 3, text: 'Unauthorized Dump'
         }, {
-            id: 3, text: 'Private Collector'
+            id: 4, text: 'Private Collector'
         }, {
-            id: 4, text: 'None '
+            id: 5, text: 'None '
         }
     ];
 
@@ -139,6 +120,8 @@ export class FormConfig {
             id: 5, text: 'Business'
         }, {
             id: 6, text: 'Individual'
+        }, {
+            id: 7, text: 'Religious'
         }
     ];
 
@@ -259,13 +242,15 @@ export class FormConfig {
     ];
 
 
- 
     public entityGroup = [
         {
             title: 'Agricultural Product',
-            sub_titles: [[
+            sub_titles: [
                 {
                     "title": "Agricultural Chemical"
+                },
+                {
+                    "title": "Agro Chemicals"
                 },
                 {
                     "title": "Agricultural Chemical, Tools, Equipment and Products"
@@ -277,12 +262,18 @@ export class FormConfig {
                     "title": "Agricultural Tools and Equipment"
                 },
                 {
+                    "title": "Farm Implemets and Tools"
+                },
+                {
                     "title": "Fish Depot"
                 },
                 {
                     "title": "Fish Farm"
+                },
+                {
+                    "title": "Seed and Seedlings"
                 }
-            ]]
+            ]
         },
         {
             title: 'Associations/Club/Unions/NGO',
@@ -631,6 +622,9 @@ export class FormConfig {
                     "title": "Authority"
                 },
                 {
+                    "title": "Banquet Hall"
+                },
+                {
                     "title": "Boards"
                 },
                 {
@@ -812,6 +806,9 @@ export class FormConfig {
                     "title": "Midwifery"
                 },
                 {
+                    "title": "Mortuary"
+                },
+                {
                     "title": "Optician"
                 },
                 {
@@ -837,6 +834,9 @@ export class FormConfig {
                 },
                 {
                     "title": "Sale of Medical Equipment"
+                },
+                {
+                    "title": "School of Nursing and Midwife"
                 },
                 {
                     "title": "Traditional Herb Medicine and Naturalist Health Care Centre"
@@ -1023,6 +1023,9 @@ export class FormConfig {
                     "title": "Immigration"
                 },
                 {
+                    "title": "Man 'O War"
+                },
+                {
                     "title": "Police Barracks"
                 },
                 {
@@ -1135,9 +1138,6 @@ export class FormConfig {
             sub_titles: [
                 {
                     "title": "Campaign Office"
-                },
-                {
-                    "title": "LGA Office"
                 },
                 {
                     "title": "Party Secretariat"
@@ -1332,6 +1332,9 @@ export class FormConfig {
                     "title": "1 storey Building 8 flats"
                  },
                  {
+                    "title": "Brothel"
+                 },
+                 {
                     "title": "Mini Estate"
                  },
                  {
@@ -1389,16 +1392,19 @@ export class FormConfig {
                     "title": "Mixed (Residential + Shop)"
                  },
                  {
-                    "title": "Mixed (Residential+ Offices)"
+                    "title": "Mixed (Residential + Offices)"
                  },
                  {
-                    "title": "OFFICE Use"
+                    "title": "Office Use"
                  },
                  {
                     "title": "Residence only"
                  },
                  {
                     "title": "Staff Quarters"
+                 },
+                 {
+                    "title": "Student Hostel"
                  }
             ]
         },
@@ -1657,6 +1663,9 @@ export class FormConfig {
                 },
                 {
                     "title": "Cybercafé"
+                },
+                {
+                    "title": "Dog Pound"
                 },
                 {
                     "title": "Dry Cleaner"
@@ -1934,6 +1943,9 @@ export class FormConfig {
                     "title": "Airport"
                 },
                 {
+                    "title": "Aviation College"
+                },
+                {
                     "title": "Bus Stop"
                 },
                 {
@@ -2004,7 +2016,7 @@ export class FormConfig {
     ];
 
     public roadCondition = [
-        'Good', 'Bad Fair', 'Under Construction', 'Abandoned Construction'
+        'Good', 'Bad',  'Fair', 'Under Construction', 'Abandoned Construction'
     ];
 
     public roadSurface = [
@@ -2016,11 +2028,11 @@ export class FormConfig {
     ];
 
     public roadType = [
-        'Avenue', 'Boulevard', 'Close', 'Crescent', 'Drive', 'Lane', 'Railway Line', 'Road', 'Street', 'Way'
+        'Avenue', 'Boulevard', 'Close', 'Crescent', 'Drive', 'Lane', 'Railway Line', 'Road', 'Street', 'Walk Way', 'Way'
     ];
 
     public roadFeature = [
-        'Bridges', 'Canal', 'City Gate', 'Highway', 'Intersections', 'Major Roads', 'Pedestrian Bridge', 'Roundabouts', 'T-Junctions', 'None'
+        'Bridges', 'Canal', 'City Gate', 'Highway', 'Intersections', 'Major Roads', 'Pedestrian Bridge', 'Roundabouts', 'T-Junctions', 'Walk Way','None'
     ];
 
     public electricity = ['Yes', 'No'];

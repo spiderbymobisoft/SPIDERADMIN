@@ -7,7 +7,7 @@
 </h1>
 <section class="widget card-interface" widget>
   <header>
-      <a class="btn bg-primary btn-md text-white" (click)="downloadAsCSV()">Download as CSV</a>
+    <a class="btn bg-primary btn-md text-white" (click)="downloadAsCSV()">Download {{ selectedRecords.length > 0 ? ' SELECTED ' : ' ALL ' }} DATA as CSV</a>
   </header>
   <div class="widget-body">
     <div class="mt">
@@ -22,6 +22,9 @@
       <table class="table table-striped table-hover" [mfData]="streetRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
         <thead>
           <tr>
+            <th class="align-middle text-right">
+                <input class="form-check-input" id="toggle-all" type="checkbox" [checked]="toogleSelectAll" (click)="selectAll()">
+            </th>
             <th class="hidden-md-down ">
               <mfDefaultSorter by="street.gis_id">GIS ID</mfDefaultSorter>
             </th>
@@ -46,7 +49,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let record of mf.data | SearchPipe : searchText">
+          <tr *ngFor="let record of mf.data | SearchPipe : searchText; let i = index">
+            <td class="align-middle">
+                <input class="form-check-input" class="toggle-one" type="checkbox" id="checkbox{{record._id}}" [checked]="isSelected(record._id)"
+                (click)="selectRecord(record._id)">
+            </td>
             <td class="hidden-md-down align-middle">
               {{ record.street.gis_id ? record.street.gis_id : 'N/A' }}
             </td>
@@ -63,7 +70,7 @@
               {{ record.street.state }}
             </td>
             <td class="hidden-md-down align-middle">
-              {{ record.street_photos.length }}
+              {{ record.street_photos.length }} <a *ngIf="record.street_photos.length > 0" (click)="downloadPhotos(record.street_photos)"><i class="fa fa-download"></i></a>
             </td>
             <td class="hidden-md-down text-right align-middle">
               <button class="btn btn-primary width-50 mb-xs" role="button" (click)="openStreetPage(record)">
@@ -72,7 +79,7 @@
               <button class="btn btn-warning width-50 mb-xs" role="button" (click)="openEditStreetPage(record)">
                 <i class="glyphicon glyphicon glyphicon-pencil text-white"></i>
               </button>
-              <button class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record._id)">
+              <button class="btn btn-danger width-50 mb-xs" role="button" (click)="deleteRecord(record._id, i)">
                 <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
               </button>
             </td>
@@ -86,11 +93,19 @@
         <tfoot>
           <tr>
             <td colspan="12">
-              <mfBootstrapPaginator [rowsOnPageSet]="[10, 25, 50, 100, 500]"></mfBootstrapPaginator>
+              <mfBootstrapPaginator [rowsOnPageSet]="[10, 25, 50, 100, 500, 1000]"></mfBootstrapPaginator>
             </td>
           </tr>
         </tfoot>
       </table>
+    </div>
+    <div class="mt">
+      <a *ngIf="!isLoading" class="btn bg-primary btn-md text-white" (click)="moreRecords()">Load More (500)</a>
+      <a *ngIf="isLoading" class="btn btn-block btn-grey" disabled>
+        <span class="spinner">
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
+      </a>
     </div>
   </div>
 </section>

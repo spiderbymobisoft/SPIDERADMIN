@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Intelligence } from '../services/library/intelligence';
+import { Router } from '@angular/router';
 import { DeleteService } from '../services/http/crud/delete.services';
 import { RetrieveService } from '../services/http/crud/retrieve.services';
 import { SharedServices } from '../services/shared/shared.services';
@@ -18,9 +17,12 @@ declare var swal: any;
 export class Streets implements OnInit {
   _streetRecords: any[] = [];
   streetRecords: any[] = [];
+  isLoading: boolean = true;
   searchText: string = '';
   user: any;
-  private intelligence: any = new Intelligence();
+  selectedRecords: any[] = [];
+  toogleSelectAll: boolean = false;
+  private start: number = 0;
 
   constructor(
     private csvService: CsvService,
@@ -35,11 +37,69 @@ export class Streets implements OnInit {
     this.recordsInit();
   }
 
+  downloadPhotos(photos) {
+    photos.forEach(photo => {
+      window.open(photo.url,'_blank');
+    });
+  }
+
+  selectAll() {
+    if (!this.toogleSelectAll) {
+      this.selectedRecords = [];
+      this.streetRecords.forEach(data => this.selectedRecords.push(data._id));
+    } else {
+      this.selectedRecords = [];
+    }
+    this.toogleSelectAll ? this.toogleSelectAll = false : this.toogleSelectAll = true;
+  }
+
+  isSelected(id) {
+    return this.selectedRecords.filter(data => data == id).length > 0;
+  }
+
+  selectRecord(id) {
+    if (this.isSelected(id)) {
+      this.selectedRecords = this.selectedRecords.filter(data => data !== id);
+    } else {
+      this.selectedRecords.push(id);
+    }
+    this.toogleSelectAll = false;
+  }
+
   downloadAsCSV() {
+    let tempRecords: any[] = [];
+    if (this.selectedRecords.length === 0) {
+      tempRecords = this.streetRecords;
+      this.processDownload(tempRecords);
+    } else {
+      this.selectedRecords.forEach(id => tempRecords.push(this.streetRecords.filter(record => record._id == id)[0]));
+      this.processDownload(tempRecords);
+    }
+  }
+
+  processDownload(dataSet) {
     let downloadID = new Date();
     let payload: any;
     let downloadable: any[] = [];
-    this.streetRecords.forEach(data => {
+
+    let photos: any = {
+      photo_1: '',
+      photo_2: '',
+      photo_3: '',
+      photo_4: '',
+      photo_5: '',
+      photo_6: ''
+    };
+    let index: number;
+    
+    dataSet.forEach(data => {
+      if (data.street_photos.length > 0) {
+        index = 1;
+        data.street_photos.forEach(photo => {
+          photos[`photo_${index}`] = photo.url;
+          index += 1;
+        });
+      }
       payload = {
         id: data._id,
         gis_id: data.street.gis_id,
@@ -59,18 +119,28 @@ export class Streets implements OnInit {
         drainage: data.street.drainage,
         electricity: data.street.electricity,
         location_type: data.location.type,
-        latitude: data.location.coordinates[0],
-        longitude: data.location.coordinates[1],
+        latitude: data.location.coordinates.latitude,
+        longitude: data.location.coordinates.longitude,
         w3w: data.location.whatthreewords,
         enumerator_firstname: data.enumerator.firstname,
         enumerator_lastname: data.enumerator.lastname,
         enumerator_email: data.enumerator.email,
         created_on: data.created
       };
-      downloadable.push(payload);
+
+      downloadable.push({ ...payload, ...photos });
+      photos = {
+        photo_1: '',
+        photo_2: '',
+        photo_3: '',
+        photo_4: '',
+        photo_5: '',
+        photo_6: ''
+      };
     });
     this.csvService.download(downloadable, `SPiDER_STREET_DATA_${downloadID}`);
   }
+
 
   recordsInit() {
     if (this.user.security.user_type != 'undefined' && this.user.security.user_type === 'Super') {
@@ -92,23 +162,27 @@ export class Streets implements OnInit {
 
 
   getStreetRecords() {
-    this.rs.getAllStreetRecords().subscribe(response => {
+    this.rs.getAllStreetRecords(this.start).subscribe(response => {
+      this.isLoading = false;
       this._streetRecords = response.result;
       this._streetRecords.forEach(data => {
         this.streetRecords.push(data);
       });
     }, err => {
+      this.isLoading = false;
       this.ss.swalAlert('Newtork Service', 'No internet connection. Please connect and refresh.', 'error');
     });
   }
 
   getOrganisationStreetRecords() {
-    this.rs.getOrganisationStreetRecords(this.user._id).subscribe(response => {
+    this.rs.getOrganisationStreetRecords(this.user._id, this.start).subscribe(response => {
+      this.isLoading = false;
       this._streetRecords = response.result;
       this._streetRecords.forEach(data => {
         this.streetRecords.push(data);
       });
     }, err => {
+      this.isLoading = false;
       this.ss.swalAlert('Newtork Service', 'No internet connection. Please connect and refresh.', 'error');
     });
   }
@@ -120,6 +194,7 @@ export class Streets implements OnInit {
         this.streetRecords.push(data);
       });
     }, err => {
+
       this.ss.swalAlert('Newtork Service', 'No internet connection. Please connect and refresh.', 'error');
     });
   }
@@ -130,12 +205,12 @@ export class Streets implements OnInit {
     this.router.navigate(['app/street']);
   }
 
-  openEditStreetPage(record){
+  openEditStreetPage(record) {
     this.ss.setRecord('street', record);
     this.router.navigate(['app/street/edit']);
   }
 
-  deleteRecord(id) {
+  deleteRecord(id:string, index: number) {
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -144,19 +219,30 @@ export class Streets implements OnInit {
       confirmButtonColor: '#FF0000',
       cancelButtonColor: '#0871FA',
       confirmButtonText: 'Yes, delete it!'
-    }).then(()=>{
-      this.ds.deleteStreet(id).subscribe(response =>{
-        if(response.success){
-          this.recordsInit();
+    }).then(() => {
+      this.ds.deleteStreet(id).subscribe(response => {
+        if (response.success) {
+          this.streetRecords.splice(index,1);
           this.ss.swalAlert('Data Service', 'Record deleted!', 'success');
-        }else{
+        } else {
           this.ss.swalAlert('Data Service', 'Record cannot be delete at this time. Please try again or contact SPiDER support!', 'error');
         }
-      },err=>{
+      }, err => {
         this.ss.swalAlert('Network Service', 'Record cannot be delete at this time. Please check your internet connection and try again!', 'error');
       });
     });
   }
 
+  moreRecords(){
+    this.start += 500;
+    this.isLoading = true;
+    this.recordsInit();
+  }
+
+  resetRecords(){
+    this.start = 0;
+    this.isLoading = true;
+    this.recordsInit();
+  }
 
 }

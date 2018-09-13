@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { RetrieveService } from '../http/crud/retrieve.services';
 
 declare var Messenger: any;
 declare var swal: any;
@@ -14,6 +15,10 @@ export class SharedServices {
         property: {},
         entity: {}
     };
+
+    constructor(private rs: RetrieveService){
+        
+    }
 
     setRecord(target: string, data: any){
         sessionStorage.setItem(target, JSON.stringify(data));
@@ -76,4 +81,14 @@ export class SharedServices {
             }
           );
     }
+
+    getPhotos(target, targetId){
+        return new Promise((resolve, reject)=>{
+          this.rs.getPhotos(target, targetId).subscribe(photos=>{
+            resolve(photos);
+          },err=>{
+            reject(err);
+          });
+        });
+      }
   }

@@ -131,8 +131,38 @@
             </legend>
             <p>{{ user.last_seen | amTimeAgo }}</p>
 
+            <!-- Password Edit -->
+            <div *ngIf="showPasswordEdit" class="animated pulse">
+              <div class="form-group row">
+                <div class="col-md-12 ">
+                  <div class="input-group input-group-md">
+                    <span class="input-group-addon bg-primary text-white">
+                      <i class="fa fa-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="security.password" placeholder="Enter New Password">
+                  </div>
+                  <div id="password-error"></div>
+                </div>
+              </div>
+              <div class="float-left">
+                <button [disabled]="isUpdatingPassword" class="btn btn-primary pull-left  mr-xs" (click)="updatePassword()">
+                  <i class="fa fa-check mr-xs pull-left font-icon-large margin-top-3"></i>
+                  &nbsp; Update Password
+                </button>
+                <button [disabled]="isUpdatingPassword" class="btn btn-danger pull-right" (click)="togglePasswordEdit()">
+                  <i class="fa fa-times mr-xs pull-left font-icon-large margin-top-3"></i>
+                  &nbsp; Cancel
+                </button>
+              </div>
+            </div>
+            <!-- /Password Edit -->
+            <div *ngIf="!showPasswordEdit && !userEdit && user.user_type !== 'Super'" class="float-left">
+              <button class="btn badge-outline-danger pull-right" (click)="togglePasswordEdit()">&nbsp; Reset Password
+                <i class="fa fa-lock mr-xs pull-left font-icon-large margin-top-3"></i>
+              </button>
+            </div>
             <div class="float-right">
-              <button class="btn btn-primary pull-right" (click)="openEdit()">&nbsp; Edit User
+              <button *ngIf="!showPasswordEdit" class="btn btn-primary pull-right" (click)="openEdit()">&nbsp; Edit User
                 <i class="fa fa-pencil mr-xs pull-left font-icon-large margin-top-3"></i>
               </button>
             </div>

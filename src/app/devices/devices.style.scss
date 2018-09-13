@@ -2,9 +2,8 @@
 @import "../../../node_modules/bootstrap/scss/_variables";
 @import "../../../node_modules/bootstrap/scss/mixins";
 
-.m-t-b {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
+td .lowercase {
+  text-transform: lowercase !important;
 }
 
 mfDefaultSorter > a {

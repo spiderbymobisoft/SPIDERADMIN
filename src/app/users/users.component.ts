@@ -36,6 +36,14 @@ export class Users implements OnInit {
   public instance: any;
   public registerSwitch: boolean = false;
 
+  public showPasswordEdit: boolean = false;
+  public isUpdatingPassword: boolean = false;
+
+  public security: any = {
+    id: '',
+    password: ''
+  }
+
   constructor(private router: Router, private rs: RetrieveService, private us: UpdateService,
     private createService: CreateService, private ss: SharedServices, private retrieveService: RetrieveService,
     private verify: VerificationService, private fb: FormBuilder) { }
@@ -52,10 +60,10 @@ export class Users implements OnInit {
       role: ['', Validators.required]
     });
 
-   this.userManagerInit();
+    this.userManagerInit();
   }
 
-  userManagerInit(){
+  userManagerInit() {
     if (this.thisUser.security.user_type != 'undefined' && this.thisUser.security.user_type === 'Super') {
       this.userRecordsInit();
     }
@@ -95,7 +103,7 @@ export class Users implements OnInit {
         this.loadingUser = false;
       }, 1000);
     }, err => {
-      this.loadingUser = true; 
+      this.loadingUser = true;
       this.ss.swalAlert('Network Service', 'No network! Please connect to a network and try again', 'error');
     });
   }
@@ -146,13 +154,14 @@ export class Users implements OnInit {
 
   openEdit() {
     this.userEdit = true;
+    this.showPasswordEdit = false;
     window.scrollTo(0, 0);
   }
 
 
   updateUser() {
     this.saving = true;
-    let payload: any= {
+    let payload: any = {
       id: this.user.id,
       firstname: this.user.firstname,
       lastname: this.user.lastname,
@@ -164,7 +173,7 @@ export class Users implements OnInit {
     this.user.user_type === 'Individual' ? this.updateIndividual(payload) : this.updateOrganisation(payload);
   }
 
-  updateIndividual(payload){
+  updateIndividual(payload) {
     this.us.updateIndividual(payload).subscribe(response => {
       if (response.success) {
         this.ss.swalAlert('Account Service', 'Account has been updated!', 'success');
@@ -178,7 +187,7 @@ export class Users implements OnInit {
     });
   }
 
-  updateOrganisation(payload){
+  updateOrganisation(payload) {
     this.us.updateOrganisation(payload).subscribe(response => {
       if (response.success) {
         this.ss.swalAlert('Account Service', 'Account has been updated!', 'success');
@@ -231,6 +240,7 @@ export class Users implements OnInit {
 
   displayThis(item) {
     this.user = item;
+    this.security.id = this.user.id;
     this.display = 'user';
     setTimeout(() => {
       this.closeButton = true;
@@ -250,6 +260,36 @@ export class Users implements OnInit {
 
   openNewUserPage() {
     this.display = 'new-user';
+  }
+
+  updatePassword() {
+    if(this.security.password){
+      this.isUpdatingPassword = true;
+      this.us.updateSecurity(this.security).subscribe(response => {
+        if (response.success) {
+          this.ss.swalAlert('Account Service', 'Password reset successfully! A confirmation email has been sent to ' + this.user.email, 'success');
+        } else {
+          this.ss.swalAlert('Account Service', 'Unable to reset password. Please try again or contact support.', 'error');
+        }
+        this.updatePasswordStatus();
+      }, (err) => {
+        this.updatePasswordStatus()
+        this.ss.swalAlert('Network Service', 'Cannot connect to the internet!', 'error');
+      });
+    }else{
+      this.ss.swalAlert('Account Service', 'Please provide new password and try again.', 'error');
+    }
+  }
+
+  updatePasswordStatus() {
+    this.security.password = '';
+    this.showPasswordEdit = false;
+    this.isUpdatingPassword = false;
+  }
+
+  togglePasswordEdit() {
+    this.isUpdatingPassword = false;
+    this.showPasswordEdit ? this.showPasswordEdit = false : this.showPasswordEdit = true;
   }
 
 }

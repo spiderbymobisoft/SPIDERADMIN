@@ -1,0 +1,55 @@
+<!-- <h1 class="page-title">My <span class="fw-semi-bold">Profile</span></h1> -->
+<div class="row profile">
+  <div class="col-lg-6 col-12 animated pulse">
+    <section class="widget card-interface">
+      <div class="widget-middle-overflow windget-padding-md clearfix text-center text-black ">
+        <img src="assets/icon/settings.svg" height="80px" alt="">
+        <h3>
+          Console Settings
+        </h3>
+      </div>
+      <div class="widget-body bg-white">
+        <div class="clearfix">
+          <form class="form-horizontal form-label-left parsleyjs" method="post" data-parsley-priority-enabled="false"
+            novalidate="novalidate" (ngSubmit)="updateServerSettings()">
+            <fieldset>
+              <div class="form-group row">
+                <label class="form-control-label col-md-3 col-xs-12" for="access_control">Use SPiDER Cloud</label>
+                <div class="col-md-9 col-xs-12">
+                  <div class="display-inline-block checkbox-ios">
+                    <label for="access_control" class="switch">
+                      <input type="checkbox" class="ios" checked id="access_control" name="access_control" [(ngModel)]="serverConfig.cloud">
+                      <i></i>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!serverConfig.cloud" class="form-group row">
+                <div class="col-12">
+                  <label for="ip">Server IP Address</label>
+                </div>
+                <div class="col-12">
+                  <input type="text" id="ip" name="ip" class="form-control" required="" [(ngModel)]="serverConfig.ip">
+                </div>
+                <div class="col-12">
+                  <label for="port">Server Port</label>
+                </div>
+                <div class="col-12">
+                  <input type="number" id="port" name="port" class="form-control" required="" [(ngModel)]="serverConfig.port">
+                </div>
+              </div>
+            </fieldset>
+            <div class="form-actions bg-white">
+                <button type="button" (click)="closeEdit()" class="btn btn-inverse btn-rounded pull-left">
+                  <i class="fa fa-reply pull-left font-icon-large"></i>
+                </button>
+                <button type="submit" class="btn btn-success btn-rounded pull-right">&nbsp; Save
+                  <i class="fa fa-save pull-left font-icon-large margin-top-3"></i>
+                </button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -61,7 +61,7 @@
                 </legend>
                 <div class="form-group row">
                   <div class="col-12">
-                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.entity_category" id="category" name="category">
+                    <select class="btn btn-lg btn-select" [(ngModel)]="payload.entity.entity_categories" id="category" name="category" multiple>
                       <option *ngFor="let data of entityGroup" value="{{ data.title }}">{{ data.title }}</option>
                     </select>
 

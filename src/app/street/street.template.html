@@ -24,10 +24,10 @@
         <div>
           <p>
             <i class="fa fa-map-marker"></i>
-            <a href="http://www.google.com/maps/place/{{ streetRecord.location.coordinates[1] }}, {{ streetRecord.location.coordinates[0] }}"
+            <a href="http://www.google.com/maps/place/{{ streetRecord.location.coordinates.latitude }}, {{ streetRecord.location.coordinates.longitude }}"
               target="_blank">
-              <b>LNG:</b> {{ streetRecord.location.coordinates[0] }}
-              <b>LAT:</b> {{ streetRecord.location.coordinates[1] }}</a>
+              <b>LNG:</b> {{ streetRecord.location.coordinates.longitude }}
+              <b>LAT:</b> {{ streetRecord.location.coordinates.latitude }}</a>
           </p>
           <p *ngIf="streetRecord.location.whatthreewords">
             <i class="fa fa-map-marker"></i>
@@ -140,24 +140,9 @@
       </div>
       <div class="widget-body">
         <div>
-          <h4>{{ photo.title }}</h4>
-        </div>
-        <div>
           <span>
             <i class="fa fa-camera"></i> {{ photo.snapshot_position }}
           </span>
-        </div>
-        <div>
-          <p>
-            <i class="fa fa-map-marker"></i>
-            <a href="http://www.google.com/maps/place/{{ photo.location.coordinates[1] }}, {{ photo.location.coordinates[0] }}" target="_blank">
-              <b>LNG:</b> {{ photo.location.coordinates[0] }}
-              <b>LAT:</b> {{ photo.location.coordinates[1] }}</a>
-          </p>
-          <p *ngIf="photo.location.whatthreewords">
-            <i class="fa fa-map-marker"></i>
-            <a href="https://map.what3words.com/{{ photo.location.whatthreewords }}" target="_blank">{{ photo.location.whatthreewords }}</a>
-          </p>
         </div>
       </div>
     </section>
@@ -165,9 +150,14 @@
 </div>
 <section class="widget card-interface" widget>
   <header>
-    <h3 class="page-title">Properties on -
-      <span class="fw-semi-bold text-capitalize">{{ streetRecord.street.street_name }}</span>
-    </h3>
+    <div>
+      <h3 class="page-title">Properties on -
+        <span class="fw-semi-bold text-capitalize">{{ streetRecord.street.street_name }}</span>
+      </h3>
+    </div>
+    <div class="m-t-b">
+      <a class="btn bg-primary btn-md text-white" (click)="downloadAsCSV()">Download {{ selectedRecords.length > 0 ? ' SELECTED ' : ' ALL ' }} DATA as CSV</a>
+    </div>
   </header>
   <div class="widget-body">
     <div class="mt">
@@ -182,6 +172,9 @@
       <table class="table table-striped table-hover" [mfData]="propertyRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
         <thead>
           <tr>
+            <th class="align-middle text-center">
+              <input class="form-check-input" id="toggle-all" type="checkbox" [checked]="toogleSelectAll" (click)="selectAll()">
+            </th>
             <th>
               <mfDefaultSorter by="proprty.building_serial_number">BSN</mfDefaultSorter>
             </th>
@@ -192,11 +185,11 @@
               <mfDefaultSorter by="property.ownership_type">Ownership Type</mfDefaultSorter>
             </th>
             <th class="hidden-md-down ">
-              <mfDefaultSorter by="contact.contact_person">Contact</mfDefaultSorter>
-            </th>
-            <th class="hidden-md-down ">
               <mfDefaultSorter by="property.number_of_entity">Entities</mfDefaultSorter>
             </th>
+            <th class="hidden-md-down">
+                Photos
+              </th>
             <th class="hidden-md-down text-right">
               Action
             </th>
@@ -204,6 +197,10 @@
         </thead>
         <tbody class="text-capitalize">
           <tr *ngFor="let record of mf.data | SearchPipe : searchText">
+            <td class="align-middle">
+              <input class="form-check-input" class="toggle-one" type="checkbox" id="checkbox{{record._id}}" [checked]="isSelected(record._id)"
+                (click)="selectRecord(record._id)">
+            </td>
             <td class="align-middle">
               {{ record.property.building_serial_number ? record.property.building_serial_number : 'N/A' }}
             </td>
@@ -214,23 +211,11 @@
               <span class="fw-semi-bold">{{ record.property.ownership_type }}</span>
             </td>
             <td class="hidden-md-down align-middle">
-              <div *ngIf="record.contact">
-                <i class="fa fa-user"></i> &nbsp;
-                <span class="font-weight-bold">{{ record.contact.contact_person }}</span>
-                <br>
-                <i class="fa fa-envelope"></i>&nbsp;
-                <span class="text-lowercase"> {{ record.contact.email }}</span>
-                <br>
-                <i class="fa fa-phone"></i>&nbsp;
-                <span> {{ record.contact.telephone }}</span>
-              </div>
-              <div *ngIf="!record.contact">
-                No Contact Information
-              </div>
-            </td>
-            <td class="hidden-md-down align-middle">
               {{ record.property.number_of_entity }}
             </td>
+            <td class="hidden-md-down align-middle">
+                {{ record.property_photos.length }} <a *ngIf="record.property_photos.length > 0" (click)="downloadPhotos(record.property_photos)"><i class="fa fa-download"></i></a>
+              </td>
             <td class="hidden-md-down text-right align-middle">
               <button class="btn btn-primary width-50 mb-xs" role="button" (click)="goToPropertyPage(record)">
                 <i class="glyphicon glyphicon glyphicon-eye-open text-white"></i>

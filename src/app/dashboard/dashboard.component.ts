@@ -50,6 +50,24 @@ export class Dashboard implements OnInit {
       img: 'assets/icon/property.svg',
       description: 'All Properties Information',
       page: 'properties'
+    },
+    {
+      title: 'Device Manager',
+      img: 'assets/icon/device.svg',
+      description: 'Users Device Manager',
+      page: 'devices'
+    },
+    {
+      title: 'Messaging',
+      img: 'assets/icon/notification.svg',
+      description: 'Internal Messaging',
+      page: 'new/notification'
+    },
+    {
+      title: 'Settings',
+      img: 'assets/icon/settings.svg',
+      description: 'Console Settings',
+      page: 'settings'
     }];
   }
 

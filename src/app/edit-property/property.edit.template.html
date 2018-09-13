@@ -79,7 +79,9 @@
                 <div class="form-group row">
                   <div class="col-12">
                     <select class="btn btn-lg btn-select" [(ngModel)]="payload.property.building_part_occupied" id="building_part_occupied" name="building_part_occupied">
-                      <option *ngFor="let data of formConfig.buildingPartOccupied" value="{{ data.text }}">{{ data.text }}</option>
+                      <option value="Whole Building">Whole Building</option>
+                      <option value="Part of Building">Part of Building</option>
+                      <option value="Not Applicable">Not Applicable</option>
                     </select>
                   </div>
                 </div>
@@ -231,44 +233,28 @@
             <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <legend>
-                  Gate House
+                  Gate House ID
                 </legend>
                 <div class="form-group row">
                   <div class="col-12">
-                    <input type="number" placeholder="Number of Gate House" id="gate_house" maxlength="60" name="gate_house" class="form-control form-control-md"
-                      required="required" [(ngModel)]="payload.property.gate_house">
+                    <input type="text" placeholder="Gate House ID" id="gate_house" maxlength="60" name="gate_house" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.gate_house_id">
                   </div>
                 </div>
               </div>
 
               <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <legend>
-                  Boys Quarter
+                  Generator House ID
                 </legend>
                 <div class="form-group row">
                   <div class="col-12">
-                    <input type="number" placeholder="Number of Boys Quarter" id="boys_quarter" maxlength="60" name="boys_quarter" class="form-control form-control-md"
-                      required="required" [(ngModel)]="payload.property.boys_quarter">
+                    <input type="text" placeholder="Generator House ID" id="gen_house" maxlength="60" name="gen_house" class="form-control form-control-md"
+                      required="required" [(ngModel)]="payload.property.generator_house_id">
                   </div>
                 </div>
               </div>
 
-              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                <legend>
-                  Generator House
-                </legend>
-                <div class="form-group row">
-                  <div class="col-12">
-                    <input type="number" placeholder="Number of Generator House" id="gen_house" maxlength="60" name="gen_house" class="form-control form-control-md"
-                      required="required" [(ngModel)]="payload.property.generator_house">
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-
-            <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <legend>
                   Number of Entities
@@ -281,6 +267,10 @@
                 </div>
               </div>
 
+            </div>
+
+
+            <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <legend>
                   Has Signage

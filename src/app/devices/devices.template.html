@@ -1,0 +1,110 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Dashboard</li>
+  <li class="breadcrumb-item active">User Accounts & Devices</li>
+</ol>
+<h1 class="page-title">Accounts & Devices -
+  <span class="fw-semi-bold">Records</span>
+</h1>
+<section class="widget card-interface" widget>
+  <header>
+
+  </header>
+  <div class="widget-body">
+    <div class="mt">
+      <div class="width-200 float-xs-right">
+        <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+          <span class="input-group-addon bg-primary text-white">
+            <i class="fa fa-search"></i>
+          </span>
+          <input class="form-control form-control-sm" id="table-search-input" [(ngModel)]="searchText" type="text"
+            placeholder=" Search Email">
+        </div>
+      </div>
+      <table class="table table-striped table-hover" [mfData]="accountRecords" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead>
+          <tr>
+            <th class="hidden-md-down ">
+              <mfDefaultSorter by="street.gis_id">Account</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="street.street_name">Device</mfDefaultSorter>
+            </th>
+            <th class="hidden-md-down">
+              <mfDefaultSorter by="street.area">Status</mfDefaultSorter>
+            </th>
+            <th class="hidden-md-down">
+              <mfDefaultSorter by="street.lga">Last Seen</mfDefaultSorter>
+            </th>
+            <th class="hidden-md-down text-right">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of mf.data | SearchPipe : searchText; let i = index">
+            <td class="align-middle">
+              <b>{{ record.security.user_type === 'Individual' ? record.personal.firstname + ' ' +
+                record.personal.lastname : record.organisation.name }}</b><br>
+              <span class="lowercase">{{ record.security.user_type === 'Individual' ? record.personal.email :
+                record.organisation.email || record.personal.email }}</span>
+            </td>
+            <td class="hidden-md-down align-middle">
+              <span *ngIf="record.device">
+                <b>Model:</b> {{ record.device.specification.model }}<br />
+                <b>Platform:</b> {{ record.device.specification.platform }}<br />
+                <b>UUID:</b> {{ record.device.specification.uuid }}<br />
+              </span>
+              <span *ngIf="!record.device">
+                No device
+              </span>
+            </td>
+            <td class="hidden-md-down align-middle">
+              <span class="{{ record.device && record.device.is_active ? 'badge badge-pill badge-outline-primary' : 'badge badge-pill badge-outline-danger' }}">
+                {{ record.device ? record.device.is_active ? 'Active' : 'In-Active' : 'N/A' }}
+              </span>
+
+            </td>
+            <td class="hidden-md-down align-middle">
+              <span class="lowercase">
+                {{ record.last_seen | amTimeAgo }}
+              </span>
+            </td>
+            <td class="hidden-md-down text-right align-middle">
+              <button class="btn btn-primary width-50 mb-xs" role="button"
+                (click)="sendMessage(record)">
+                <i class="glyphicon glyphicon glyphicon-comment"></i>
+              </button>
+              <button *ngIf="record.device && record.device.is_active" class="btn btn-warning width-50 mb-xs" role="button"
+                (click)="deActivateDevice(record, i)">
+                <i class="glyphicon glyphicon glyphicon-off text-white"></i>
+              </button>
+              <button *ngIf="record.device && !record.device.is_active" class="btn btn-primary width-50 mb-xs" role="button"
+                (click)="activateDevice(record, i)">
+                <i class="glyphicon glyphicon glyphicon-ok text-white"></i>
+              </button>
+              <button *ngIf="record.device" class="btn btn-danger width-50 mb-xs" role="button" (click)="removeDevice(record, i)">
+                <i class="glyphicon glyphicon glyphicon-trash text-white"></i>
+              </button>
+              <button *ngIf="!record.device" disabled class="btn btn-white width-50 mb-xs" role="button">
+                <i class="glyphicon glyphicon glyphicon-minus-sign text-danger"></i>
+              </button>
+
+            </td>
+          </tr>
+          <tr *ngIf="(mf.data | SearchPipe : searchText).length === 0">
+            <td colspan="100">
+              No record found!
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="12">
+              <mfBootstrapPaginator [rowsOnPageSet]="[10, 25, 50, 100, 500]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
